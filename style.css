@@ -15,17 +15,19 @@ body {
 
 /* Add a banner at the top with a JPEG image */
 header {
-    background-image: url('asstes/banner.jpeg'); /* Replace 'your-banner.jpg' with the path to your JPEG banner image */
-    background-size: cover;
+    background-image: url('assets/banner.jpeg'); /* Replace 'your-banner.jpg' with the path to your JPEG banner image */
+    background-size: 50%;
     background-position: center;
+    background-repeat: no-repeat;
     text-align: center;
-    padding: 100px 0;
+    padding: 50px 0; /* Decrease the top and bottom padding to make the header smaller */
+    height: 50px; /* Adjust the height to make the header smaller */
 }
 
 /* Style the banner text (optional) */
 header h1 {
     color: #fff;
-    font-size: 36px;
+    font-size: 24px; /* Adjust the font size as needed */
 }
 
 /* Style the content sections (optional) */
