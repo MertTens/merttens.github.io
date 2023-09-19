@@ -15,7 +15,7 @@ body {
 
 /* Add a banner at the top with a JPEG image */
 header {
-    background-image: url('banner.jpeg'); /* Replace 'your-banner.jpg' with the path to your JPEG banner image */
+    background-image: url('asstes/banner.jpeg'); /* Replace 'your-banner.jpg' with the path to your JPEG banner image */
     background-size: cover;
     background-position: center;
     text-align: center;
