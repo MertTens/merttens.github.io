@@ -4,7 +4,7 @@ html, body, h1, h2, p, ul, li {
     padding: 0;
 }
 
-/* Set a black background and white text color */
+/* Set a black background for the entire page */
 body {
     font-family: Arial, sans-serif;
     background-color: #000;
@@ -13,55 +13,35 @@ body {
     padding: 0;
 }
 
-/* Style the header section */
+/* Add a banner at the top with a JPEG image */
 header {
-    background-color: transparent; /* Transparent header background */
+    background-image: url('banner.jpeg'); /* Replace 'your-banner.jpg' with the path to your JPEG banner image */
+    background-size: cover;
+    background-position: center;
     text-align: center;
-    padding: 40px 0;
+    padding: 100px 0;
 }
 
-header h1, header p {
-    color: #fff; /* White text color for the header */
-}
-
-/* Style the navigation menu */
-nav {
-    background-color: transparent; /* Transparent navigation background */
-    text-align: center;
-    padding: 10px 0;
-}
-
-nav ul {
-    list-style-type: none;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 20px;
-}
-
-nav ul li a {
-    text-decoration: none;
+/* Style the banner text (optional) */
+header h1 {
     color: #fff;
-    font-weight: bold;
+    font-size: 36px;
 }
 
-/* Style the content sections */
+/* Style the content sections (optional) */
 section {
     margin: 20px;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background for content sections */
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
 }
 
-/* Style the footer */
+/* Style the footer (optional) */
 footer {
-    background-color: transparent; /* Transparent footer background */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background for the footer */
+    color: #fff;
     text-align: center;
     padding: 10px 0;
 }
 
-footer p {
-    color: #fff; /* White text color for the footer */
-}
