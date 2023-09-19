@@ -6,8 +6,6 @@ body {
 
 
 header {
-    width: 50%;
-    height: 100px;
     margin: 0 auto; /* Add this line to center the header horizontally */
     text-align: center;
 }
