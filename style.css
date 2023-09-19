@@ -12,15 +12,6 @@ header {
     text-align: center;
 }
 
-/* Style the custom header with your JPEG image */
-.custom-header {
-    background-image: url('assets/banner.jpeg'); /* Replace 'your-header.jpg' with the path to your custom JPEG header image */
-    background-size: 50%;
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-attachment: fixed;
-    min-height: 150px; /* Adjust the height as needed */
-}
 
 /* Custom styles for the buttons */
 .my-button {
