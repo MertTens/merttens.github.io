@@ -4,6 +4,14 @@ body {
     color: #fff;
 }
 
+
+header {
+    width: 50%;
+    height: 100px;
+    margin: 0 auto; /* Add this line to center the header horizontally */
+    text-align: center;
+}
+
 /* Style the custom header with your JPEG image */
 .custom-header {
     background-image: url('assets/banner.jpeg'); /* Replace 'your-header.jpg' with the path to your custom JPEG header image */
