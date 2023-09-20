@@ -18,8 +18,7 @@ playButtons.forEach(function (button) {
         event.preventDefault();
         
         // When the button is clicked, play the song
-        var songName = this.getAttribute("data-song");
-        playSong(songName);
+        togglePlayback();
     });
 
     button.addEventListener("mouseout", function () {
