@@ -26,3 +26,31 @@ body {
 .container {
     gap: 0px; /* Adjust the value to control the gap size between flex items */
 }
+
+.album-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px; /* Adjust the gap to your desired spacing */
+}
+
+.album {
+    flex: 0 0 calc(33.3333% - 10px); /* Adjust the width of each album */
+    margin-bottom: 10px; /* Adjust the bottom margin between albums */
+    text-align: center;
+}
+
+.album img {
+    max-width: 80%;
+    height: auto;
+}
+
+
+.album img.fade-in {
+    opacity: 0; /* Start with a 0 opacity */
+    transition: opacity 1s ease-in-out; /* Add a smooth transition effect */
+}
+
+.album img.fade-in.loaded {
+    opacity: 1; /* When loaded, change opacity to 1 */
+}
