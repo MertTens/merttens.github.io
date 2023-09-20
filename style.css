@@ -49,6 +49,8 @@ body {
 .album img.fade-in {
     opacity: 0; /* Start with a 0 opacity */
     transition: opacity 1s ease-in-out; /* Add a smooth transition effect */
+    max-width: 80%; /* Set maximum width to ensure responsiveness */
+    height: auto; /* Maintain aspect ratio */
 }
 
 .album img.fade-in.loaded {
