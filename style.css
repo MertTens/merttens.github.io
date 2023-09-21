@@ -107,7 +107,8 @@ a:hover {
 }
 
 .grid-item img {
-    max-width: 100%;
+    max-width: 100%; /* Limit the image width to its container */
+    max-height: 200px; /* Set a maximum height for the images */
     height: auto;
     transition: filter 0.3s ease; /* Smooth transition for hover effect */
 }
