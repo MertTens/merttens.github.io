@@ -133,3 +133,13 @@ a:hover {
     background-color: rgba(0, 0, 0, 0.5); /* Change the background color on hover */
     color: #D3D3D3; /* Change the background color on hover */
 }
+
+.research-text {
+    text-align: left;
+    margin-bottom: 20px; /* Adjust the margin to control spacing */
+    color: #D3D3D3; /* Change the text color to white on hover */
+    font-size: 18px; /* Set the font size */
+    max-width: 60%; /* Set the maximum width you desire */
+    margin-left: auto; /* Center the element horizontally */
+    margin-right: auto; /* Center the element horizontally */
+}

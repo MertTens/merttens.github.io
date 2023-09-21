@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stony</title>
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+
+    <!-- Link to Bootstrap CSS (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Link to your custom CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header with custom JPEG image -->
+    <header>
+        <!-- You can add content or text here if needed -->
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <img src="assets/banner.png" class="mx-auto img-fluid">
+                </div>
+            </div>
+            <div class="col-auto text-center">
+                <a href ="index.html" class="btn btn-link my-button">Home</a>
+                <a href="research.html" class="btn btn-link my-button">Research</a>
+                <a href="projects.html" class="btn btn-link my-button">Projects</a>
+                <a href="music.html" class="btn btn-link my-button">Music</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="research-text">
+        <p>My focus is dynamic contrast-enhanced MRI (DCE-MRI). The idea is that you inject a contrast agent into a person and take a video of their insides using MRI. The contrast agent will cause the inside of their body to light up. Different areas will light up different amounts depending on how much contrast agent gets there. For example, the kidney might light up more than the liver since more contrast agent gets to the kidney than the liver. Things will go normal as the contrast agent washes out of the body too.</p>
+        <p>In the video, you will be able to see things light up. By examining the enhancement pattern, you can discover properties of the microvessels in different areas of the body. This can give clinically relevant information. The gif below gives an example of a DCE-MRI video.</p>
+        <p>It is important to have both a high framerate so that you accurately capture how signal intensity changes over time (things getting brighter), and a high spatial resolution so you can see all of the structures in the body. The nature of an MRI machine makes achieving both simultaneously very difficult. People approach this problem by undersampling data (meaning that they acquire less data than a standard MRI reconstruction tool needs), and they develop algorithms that intelligently guess what the data they didn't acquire is.</p>
+        <p> The algorithm I have developed for this is called Accelerated Dynamic Magnetic Resonance Imaging from Spatial-Subspace Reconstructions, or SPARS for short. I'll assume you know the details of MRI acquisition and some math from here on out. If not, click <a href="mri.html" style="color: #D3D3D3; font-weight: normal;">here</a>.</p>
+        <p>I start by first continuously acquiring data using a golden angle radial acquisition (although any acquisition pattern is fine so long as retrospective frame rates are allowed). These acquired spokes are grouped into <em>L</em> radial spokes per frame. This grouping of spokes is reconstructed to create a low temporal, high spatial resolution reconstruction of the data with the following equation: </p>
+\[
+\hat{x} = \underset{x}{\mathrm{argmin}} ||\mathrm{H} x - y||_2^2 + \lambda ||\Phi(x)||_1 
+\]
+
+    </div>
+    <!-- Rest of your content goes here -->
+
+    <!-- Link to Bootstrap JavaScript (CDN), if needed -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
