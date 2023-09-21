@@ -56,24 +56,26 @@ a {
     text-decoration: none; /* Remove underlines from links */
     color: #333; /* Set the default text color */
     font-weight: normal; /* Set normal font weight */
-    transition: font-weight 0.3s ease; /* Add a transition for font weight */
+    transition: font-weight 0.3s ease, color 0.3s ease; /* Add a transition for font weight */
 }
 
 a:hover {
     font-weight: bold; /* Change font weight to bold on hover */
+    color: #D3D3D3;
 }
 
 .play-button {
     text-decoration: none; /* Remove underlines from buttons */
     color: #333; /* Set the default text color */
     font-weight: normal; /* Set normal font weight */
-    transition: font-weight 0.3s ease; /* Add a transition for font weight */
+    transition: font-weight 0.3s ease, color 0.3s ease; /* Add a transition for font weight */
     background: transparent;
     border: none;
 }
 
 .play-button:hover {
     font-weight: bold; /* Change font weight to bold on hover */
+    color: #D3D3D3;
 }
 
 
@@ -85,4 +87,48 @@ a:hover {
     max-width: 60%; /* Set the maximum width you desire */
     margin-left: auto; /* Center the element horizontally */
     margin-right: auto; /* Center the element horizontally */
+    transition: color 0.3s ease; /* Smooth transition for text color */
+}
+
+.music-text:hover {
+    color: #D3D3D3; /* Change the text color to white on hover */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 100px; /* Adjust the gap between items */
+    padding: 10%;
+}
+
+.grid-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-item img {
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.grid-item:hover img {
+    filter: brightness(90%); /* Change the image brightness on hover */
+}
+
+.text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Background color for text overlay */
+    color: #333; /* Text color */
+    padding: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.grid-item:hover .text-overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Change the background color on hover */
+    color: #D3D3D3; /* Change the background color on hover */
 }
