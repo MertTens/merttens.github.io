@@ -147,4 +147,5 @@ a:hover {
 .center-gif {
             display: flex;
             justify-content: center;
+            align-items: center;
         }
