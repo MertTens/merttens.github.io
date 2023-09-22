@@ -140,6 +140,6 @@ a:hover {
     color: #D3D3D3; /* Change the text color to white on hover */
     font-size: 18px; /* Set the font size */
     max-width: 60%; /* Set the maximum width you desire */
-    margin-left: 5%; /* Center the element horizontally */
-    margin-right: 5%; /* Center the element horizontally */
+    margin-left: auto;
+    margin-right: auto;
 }
