@@ -9,7 +9,9 @@
     </script>
 
 
-
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
     <!-- Link to Bootstrap CSS (CDN) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
 
@@ -37,7 +39,31 @@
 
     <div class="research-text">
         <p> This algorithm has to do with CINE MRI, which is about taking an MRI video of the beating heart. Some knowledge of CINE is assumed here. If you don't know anything about CINE, click <a href="mri.html" style="color: #D3D3D3; font-weight: normal;">here</a>. My friend Aaron Curtis conceived of the idea to make a linear model for heart motion and to use an MLE filter to do that. He also thought of applying it to a Kalman filter. I came up with some mathematical derivations to significantly reduce computation time and facilitate clinical application and I thought to apply it to compressed sensing.</p>
-
+        <p>We start with a single heart beat CINE reconstruction with \(T\) phases. Our first goal is to determine some linear transform that describes the transitino from one phase to the next phase. Generally, there will be infinitely many possible linear transforms that can do this. A way to understand this is to consider the points \(x\) and \(y\) in a two dimensional space, and to try to determine a matrix \(\mathrm{A}\) such that \(y = \mathrm{A}x\). There are infinite possibilities for \(\mathrm{A}\). This is the kind of situation we are in.</p>
+        <p>In our case, we are looking for some affine transform in the following format:</p>
+        \[
+        x_{t+1} = \mathrm{F}x_t
+        \]
+        <p>Here, \(x_t\) is a vectorized image of the heart at phase \(T\), and \(\mathrm{F}\) is the linear transform to determine. One method to determine \(\mathrm{F}\) is to use a linear minimum mean squared error (LMMSE) estimator. I will not go into the details of how this works here, but the equations that determine \(\mathrm{F}\) are as follows.</p>
+        \[
+        \mathrm{F} = \mathrm{C_1}\mathrm{C_0}^{-1}\\
+        \mathrm{C_l} = \mathrm{X_l}\mathrm{X^H}
+        \]
+        <p>\(\mathrm{X}\) is a matrix where the \(t^{th}\) column of the matrix is set to \(x_{t}\), and \(\mathrm{X_l}\) is \(\mathrm{X}\) circularly shifted to the left \(l\) times. Unfortunately, \(\mathrm{C_0}\) is not invertible, so we cannot stop here. Even if it were invertible, the matrix would be too large to to any operations quickly. Instead, we will recognize that we only care about the vectors \(x_t\), so we can operate in the subspace spanned by them. Using \(x_t\) as our basis vectors, we can equivalently rewrite the above equations as:</p>
+        \[
+        e_{t+1} = \mathrm{G}e_t\\
+        \mathrm{G} = \mathrm{D_1}\mathrm{D_0}^{-1}\\
+        \mathrm{D_l} = \mathrm{I_l}\mathrm{I^H}
+        \]
+        <p>\(e_t\) are the standard basis vectors with the bases as mentioned earlier, and \(\mathrm{I_l}\) is the identity matrix circularly shifted to the left \(l\) times. With this, we very simply arrive at:</p>
+        \[
+        \mathrm{G} = \mathrm{I_1}
+        \]
+        <p>I'll write something to intuitively explain this next part later, but it is not too difficult to realize you can now now write the following: </p>
+        \[
+        x_{t+1} = \mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X}x_t
+        \]
+        <p>This tells us that the linear transform we were looking for earlier is \(\mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X}\). Now that we have this linear transform, the question is how to apply it to a reconstruction agorithm. Aaron is in Italy so I can't get any Kalman filtering results from him, but he used this linear transform as a state transition matrix for his Kalman filtering approach. What I can do is explain how to integrate this into a compressed sensing algorithm.</p>
     </div>
     <!-- Rest of your content goes here -->
 
