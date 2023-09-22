@@ -139,7 +139,7 @@ a:hover {
     margin-bottom: 20px; /* Adjust the margin to control spacing */
     color: #D3D3D3; /* Change the text color to white on hover */
     font-size: 18px; /* Set the font size */
-    max-width: calc(100% - 60px); /* Adjust the maximum width to leave space from both edges */
+    max-width: 100%; /* Adjust the maximum width to leave space from both edges */
     padding: 20px; /* Add padding to create space between text and edges */
     margin-left: auto;
     margin-right: auto;
