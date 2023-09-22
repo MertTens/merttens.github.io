@@ -37,6 +37,33 @@
         </div>
     </header>
 
+    <div class="menu-container">
+        <div class="menu-item">
+            <a href="reset.html">
+                <img src="assets/reset.png" alt="RESET MRI">
+                <p>RESET</p>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a href="spars.html">
+                <img src="assets/spars.png" alt="SPARS MRI">
+                <p>SPARS</p>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a href="cine.html">
+                <img src="assets/cine.png" alt="Project 2">
+                <p>Linear Cardiac<br>Model</p>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a href="noaif.html">
+                <img src="assets/noaif.png" alt="AIF-FREE DCE MRI">
+                <p>DCE-MRI Without<br>an AIF</p>
+            </a>
+        </div>
+        <!-- Add more grid items as needed -->
+    </div>
     <div class="research-text">
         <p> This algorithm has to do with CINE MRI, which is about taking an MRI video of the beating heart. Some knowledge of CINE is assumed here. If you don't know anything about CINE, click <a href="mri.html" style="color: #D3D3D3; font-weight: normal;">here</a>. My friend Aaron Curtis conceived of the idea to make a linear model for heart motion and to use an MLE filter to do that. He also thought of applying it to a Kalman filter. I came up with some mathematical derivations to significantly reduce computation time and facilitate clinical application and I thought to apply it to compressed sensing.</p>
         <p>We start with a single heart beat CINE reconstruction with \(T\) phases. Our first goal is to determine some linear transform that describes the transitino from one phase to the next phase. Generally, there will be infinitely many possible linear transforms that can do this. A way to understand this is to consider the points \(x\) and \(y\) in a two dimensional space, and to try to determine a matrix \(\mathrm{A}\) such that \(y = \mathrm{A}x\). There are infinite possibilities for \(\mathrm{A}\). This is the kind of situation we are in.</p>

@@ -149,3 +149,30 @@ a:hover {
             justify-content: center;
             align-items: center;
         }
+
+
+.menu-container {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent text from wrapping */
+    padding-left: 5%;
+    padding-right 5%;
+    padding-top: 2%;
+}
+
+.menu-item {
+    flex: 0 0 auto;
+    margin-right: 50px; /* Adjust the spacing between items */
+    margin-left: 50px;
+}
+
+.menu-item img {
+    max-width: 100%; /* Limit the image width to its container */
+    max-height: 150px; /* Set a maximum height for the images */
+    max-width: 100%;
+    height: auto;
+}
+
+.menu-item p {
+    text-align: center;
+}
