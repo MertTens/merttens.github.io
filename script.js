@@ -129,7 +129,7 @@ clearButton.addEventListener('click', () => {
 // Function to load and draw an image onto the canvas
 function drawImage() {
     const img = new Image();
-    img.src = 'https://merttens.github.io//assets/brainmri.jpg'; // Replace with the path to your image
+    img.src = 'https://alexandermertens.com//assets/brainmri.jpg'; // Replace with the path to your image
 
     img.onload = () => {
         //imageCanvas.width = img.width;
