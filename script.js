@@ -132,11 +132,11 @@ function drawImage() {
     img.src = 'https://raw.githubusercontent.com/MertTens/merttens.github.io/main/assets/brainmri.jpg'; // Replace with the path to your image
 
     img.onload = () => {
-        imageCanvas.width = img.width;
-        imageCanvas.height = img.height;
+        //imageCanvas.width = img.width;
+        //imageCanvas.height = img.height;
 
         // Draw the original image on the canvas
-        imageContext.drawImage(img, 0, 0);
+        imageContext.drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
 
         // Get the image data from the canvas
         const imageData = imageContext.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
