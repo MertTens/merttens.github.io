@@ -128,31 +128,50 @@ clearButton.addEventListener('click', () => {
 // Rest of your JavaScript code...
 // Function to load and draw an image onto the canvas
 function drawImage() {
-    const img = new Image();
-    img.src = 'https://alexandermertens.com//assets/brainmri.jpg'; // Replace with the path to your image
+    const csvUrl = 'assets/brainmri.csv'; // Replace with the URL of your CSV file
 
-    img.onload = () => {
-        //imageCanvas.width = img.width;
-        //imageCanvas.height = img.height;
-
-        // Draw the original image on the canvas
-        imageContext.drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
-
-        // Get the image data from the canvas
-        const imageData = imageContext.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
-        const data = imageData.data;
-        // Loop through the pixel data and change the color (e.g., from red to blue)
-        for (let i = 0; i < data.length; i += 4) {
-            // Modify the R, G, and B values (e.g., change red to blue)
-            data[i] = 0;       // Red channel
-            data[i + 1] = 0;   // Green channel
-            data[i + 2] = 0; // Blue channel
-            // Alpha channel (data[i + 3]) remains unchanged
+    fetch(csvUrl)
+      .then((response) => response.text())
+      .then((csvContent) => {
+        // Parse the CSV data into a 2D array
+        const rows = csvContent.split('\n');
+        const data = [];
+    
+        for (const row of rows) {
+          const columns = row.split(',');
+          data.push(columns);
         }
-
-        // Put the modified image data back on the canvas
+    
+        // Define canvas dimensions based on data size
+        const numRows = data.length;
+        const numCols = data[0].length;
+    
+        // Create a new ImageData object
+        const imageData = new ImageData(numCols, numRows);
+        const pixelData = imageData.data;
+    
+        // Map CSV data to pixel data (simplified example: grayscale values)
+        for (let y = 0; y < numRows; y++) {
+          for (let x = 0; x < numCols; x++) {
+            const value = parseFloat(data[y][x]);
+            const pixelIndex = (y * numCols + x) * 4;
+    
+            // In this example, map a value to a grayscale color
+            const grayValue = Math.round((value / 255) * 255);
+            pixelData[pixelIndex] = grayValue; // Red channel
+            pixelData[pixelIndex + 1] = grayValue; // Green channel
+            pixelData[pixelIndex + 2] = grayValue; // Blue channel
+            pixelData[pixelIndex + 3] = 255; // Alpha channel (fully opaque)
+          }
+        }
+    
+        // Put the pixel data on the canvas
         imageContext.putImageData(imageData, 0, 0);
-    };
+      })
+      .catch((error) => {
+        console.error('Error loading CSV:', error);
+      });
+
 }
 
 // Call the drawImage function to load and draw the image
