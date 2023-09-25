@@ -176,3 +176,31 @@ a:hover {
 .menu-item p {
     text-align: center;
 }
+
+
+.canvas-container {
+    display: flex;
+    flex-direction: row;
+    height: 80vh;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+
+canvas {
+    border: 2px solid white;
+    margin-right: 10px;
+}
+
+/* Center the clear button under the doodle canvas */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; /* Adjust as needed to control the spacing */
+}
+
+button {
+    /* Add any additional button styling here */
+}
+
