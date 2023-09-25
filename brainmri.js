@@ -369,3 +369,9 @@ function drawImage() {
 
 // Call the drawImage function to load and draw the image
 drawImage();
+
+
+const input = new Array(4096);
+input.fill(0);
+
+const out = FFT(4096).createComplexArray();
