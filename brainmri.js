@@ -332,6 +332,7 @@ doodleCanvas.addEventListener('mouseup', () => {
 });
 
 doodleCanvas.addEventListener('mousemove', draw);
+var lineWidth = 10;
 
 // Function to draw on the doodle canvas
 function draw(e) {
@@ -349,7 +350,7 @@ function draw(e) {
     const yIdx = Math.floor(128*y/doodleCanvas.width)
 
 
-    doodleContext.lineWidth = 10;
+    doodleContext.lineWidth = lineWidth;
     doodleContext.lineCap = 'round';
 
 
@@ -364,7 +365,8 @@ function draw(e) {
 const lineSizeSlider = document.getElementById('lineSizeSlider');
 lineSizeSlider.addEventListener('input', function () {
   // Update the line width based on the slider value
-  doodleContext.lineWidth = this.value;
+  lineWidth = this.value;
+    console.log(lineWidth);
 });
 
 // Clear button event listener for the doodle canvas
