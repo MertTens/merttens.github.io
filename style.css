@@ -71,6 +71,7 @@ a:hover {
     transition: font-weight 0.3s ease, color 0.3s ease; /* Add a transition for font weight */
     background: transparent;
     border: none;
+    margin: 0px
 }
 
 .play-button:hover {
