@@ -35,9 +35,14 @@
         <canvas id="imageCanvas"></canvas>
     </div>
     <div class="button-container">
-        <button id="clearButton">Clear</button>
-        <label for="lineSizeSlider">K-Space Traversal Size:</label>
-        <input type="range" id="lineSizeSlider" min="1" max="100" value="5">
+        <div class="slider-clear-container">
+          <div class="slider-container">
+            <label for="lineSizeSlider">Line Size:</label>
+            <input type="range" id="lineSizeSlider" min="1" max="100" value="5">
+          </div>
+          <button id="clearButton">Clear</button>
+        </div>
+
     </div>
     <script src="js/fourier.js"></script>
     <script src="brainmri.js"></script>
