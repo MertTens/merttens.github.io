@@ -286,7 +286,7 @@ brainarr[126] = newRow
 newRow = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 brainarr[127] = newRow
 
-
+var maxMagnitude = 0;
 // Get the canvas and context for doodling
 const doodleCanvas = document.getElementById('doodleCanvas');
 const doodleContext = doodleCanvas.getContext('2d');
@@ -328,6 +328,7 @@ doodleCanvas.addEventListener('mousedown', () => {
 doodleCanvas.addEventListener('mouseup', () => {
     drawing = false;
     doodleContext.beginPath();
+    drawImage();
 });
 
 doodleCanvas.addEventListener('mousemove', draw);
@@ -336,6 +337,7 @@ doodleCanvas.addEventListener('mousemove', draw);
 function draw(e) {
     if (!drawing) return;
 
+    var cc = 9e-3;
     const rect = doodleCanvas.getBoundingClientRect();
     const scaleX = doodleCanvas.width / rect.width;
     const scaleY = doodleCanvas.height / rect.height;
@@ -343,14 +345,24 @@ function draw(e) {
     const x = (e.clientX - rect.left) * scaleX;
     const y = (e.clientY - rect.top) * scaleY;
 
+    const xIdx = Math.floor(128*x/doodleCanvas.width)
+    const yIdx = Math.floor(128*y/doodleCanvas.width)
+
+    var logOfMaxMag = Math.log(cc*maxMagnitude+1);
+    var color = Math.log(cc*$hh(xIdx, yIdx).magnitude()+1);
+    color = Math.round(255*(color/logOfMaxMag));
+
     doodleContext.lineWidth = 5;
     doodleContext.lineCap = 'round';
-    doodleContext.strokeStyle = 'white';
+
+
+    doodleContext.strokeStyle = `rgb(${color},${color},${color})`;
 
     doodleContext.lineTo(x, y);
     doodleContext.stroke();
     doodleContext.beginPath();
     doodleContext.moveTo(x, y);
+    drawImage()
 }
 
 // Clear button event listener for the doodle canvas
@@ -396,25 +408,67 @@ function drawImage() {
     var h_hats = [];
     Fourier.transform(h(), h_hats);
     h_hats = Fourier.shift(h_hats,dims);
+    var hh_hats = [];
+    Fourier.transform(h(), hh_hats);
+    hh_hats = Fourier.shift(hh_hats,dims);
 
-    // I'll find the largest magnitude
-    var maxMag = 0;
-    for (var ai = 0; ai < h_hats.length; ai++){
-        var mag = h_hats[ai].magnitude();
-        if (mag > maxMag) {
-            maxMag = mag;
-        }
-    }
 
     // Now I'll apply a high pass filter
     // Here is also where I will do my own stuff to filter the Fourier data
-    Fourier.filter(h_hats, dims, 18, 128);
+    const doodleData = doodleContext.getImageData(0,0, doodleCanvas.width, doodleCanvas.height);
+    const doodlePixels = doodleData.data;// Define the new dimensions (e.g., 128x128)
+    const newWidth = 128;
+    const newHeight = 128;
+    
+    // Create a new canvas to hold the resized image
+    const resizedCanvas = document.createElement('canvas');
+    resizedCanvas.width = newWidth;
+    resizedCanvas.height = newHeight;
+    
+    // Get the 2D rendering context of the new canvas
+    const resizedCtx = resizedCanvas.getContext('2d');
+    
+    // Draw the original pixel data onto the new canvas with resizing
+    resizedCtx.drawImage(
+      doodleCanvas,
+      0, 0, doodleCanvas.width, doodleCanvas.height, // Source rectangle (original size)
+      0, 0, newWidth, newHeight // Destination rectangle (new size)
+    );
+    
+    // Get the resized pixel data from the new canvas
+    const resizedImageData = resizedCtx.getImageData(0, 0, newWidth, newHeight);
+    const resizedPixelData = resizedImageData.data;
+    // I'll find the largest magnitude
+    Fourier.shift(h_hats, dims);
+    
+    maxMagnitude = 0;
+    for (let y = 0; y < imageHeight; y++) {
+      for (let x = 0; x < imageWidth; x++) {
+        // const grayscaleValue = brainarr[y][x];
+        idx1 = y*imageHeight + x;
+        idx = x*imageHeight + y;
+        var mag = h_hats[idx].magnitude();
+        if (mag > maxMagnitude) {
+          maxMagnitude = mag;
+        }
+        if (resizedPixelData[idx1*4] === 0) h_hats[idx] = new Fourier.Complex(0,0);
+      }
+    }
+    console.log(maxMagnitude)
+    Fourier.unshift(h_hats,dims);
+
+    //Fourier.filter(h_hats, dims, 18, 128);
 
     // Now I'll store the result in a nice function like the guy does
     $h = function(k,l) {
         if (arguments.length === 0) return h_hats;
         var idx = k*dims[0] + l;
         return h_hats[idx];
+    }
+    $hh = function(k,l) {
+        if (arguments.length === 0) return hh_hats;
+        var idx = k*dims[0] + l;
+        return hh_hats[idx];
     }
 
     // Now its time to reconstruct like he does
@@ -442,7 +496,8 @@ function drawImage() {
     for (let y = 0; y < imageHeight; y++) {
       for (let x = 0; x < imageWidth; x++) {
         // const grayscaleValue = brainarr[y][x];
-        const grayscaleValue = h_(y,x);
+        var grayscaleValue = h_(y,x);
+        idx = y*imageHeight + x;
         imageContext.fillStyle = `rgb(${grayscaleValue},${grayscaleValue},${grayscaleValue})`;
         imageContext.fillRect(x * pixelSizeX, y * pixelSizeY, pixelSizeX, pixelSizeY);
       }
