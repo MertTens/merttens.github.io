@@ -348,15 +348,12 @@ function draw(e) {
     const xIdx = Math.floor(128*x/doodleCanvas.width)
     const yIdx = Math.floor(128*y/doodleCanvas.width)
 
-    var logOfMaxMag = Math.log(cc*maxMagnitude+1);
-    var color = Math.log(cc*$hh(xIdx, yIdx).magnitude()+1);
-    color = Math.round(255*(color/logOfMaxMag));
 
     doodleContext.lineWidth = 5;
     doodleContext.lineCap = 'round';
 
 
-    doodleContext.strokeStyle = `rgb(${color},${color},${color})`;
+    doodleContext.strokeStyle = 'white';
 
     doodleContext.lineTo(x, y);
     doodleContext.stroke();
@@ -378,10 +375,15 @@ function drawImage() {
     // Calculate the pixel size based on the canvas dimensions and image size
     const canvasWidth = imageCanvas.width;
     const canvasHeight = imageCanvas.height;
+    const doodleCanvasWidth = doodleCanvas.width;
+    const doodleCanvasHeight = doodleCanvas.height;
     const imageWidth = brainarr[0].length;
     const imageHeight = brainarr.length;
     const pixelSizeX = canvasWidth / imageWidth;
     const pixelSizeY = canvasHeight / imageHeight;
+    const doodlePixelSizeY = doodleCanvasHeight / imageHeight;
+    const doodlePixelSizeX = doodleCanvasWidth / imageWidth;
+    var cc = 9e-3;
     
     // Draw the grayscale image to fill the canvas
     var start = +new Date();
@@ -493,6 +495,7 @@ function drawImage() {
 
 
     // Now I can draw the pixels
+    var logOfMaxMag = Math.log(cc*maxMagnitude+1);
     for (let y = 0; y < imageHeight; y++) {
       for (let x = 0; x < imageWidth; x++) {
         // const grayscaleValue = brainarr[y][x];
@@ -500,6 +503,13 @@ function drawImage() {
         idx = y*imageHeight + x;
         imageContext.fillStyle = `rgb(${grayscaleValue},${grayscaleValue},${grayscaleValue})`;
         imageContext.fillRect(x * pixelSizeX, y * pixelSizeY, pixelSizeX, pixelSizeY);
+        idx1 = y*imageHeight + x;
+        if (resizedPixelData[idx1*4] > 0) {
+            var color = Math.log(cc*$hh(y, x).magnitude()+1);
+            color = Math.round(255*(color/logOfMaxMag));
+            doodleContext.fillStyle = `rgb(${color},${color},${color})`;
+            doodleContext.fillRect(x * pixelSizeX, y * pixelSizeY, pixelSizeX, pixelSizeY);
+        }
       }
     }
 
