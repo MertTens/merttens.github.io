@@ -235,20 +235,20 @@ button {
 }
 /* For webkit-based browsers (Chrome, Safari) */
 .slider-container input[type="range"]::-webkit-slider-thumb {
-  background-color: #ff5733; /* Thumb color */
+  background-color: #D3D3D3; /* Thumb color */
 }
 
 .slider-container input[type="range"]::-webkit-slider-runnable-track {
-  background-color: #ccc; /* Track color */
+  background-color: #333; /* Track color */
 }
 
 /* For Firefox */
 .slider-container input[type="range"]::-moz-range-thumb {
-  background-color: #ff5733; /* Thumb color */
+  background-color: #D3D3D3; /* Thumb color */
 }
 
 .slider-container input[type="range"]::-moz-range-track {
-  background-color: #ccc; /* Track color */
+  background-color: #333; /* Track color */
 }
 
 
