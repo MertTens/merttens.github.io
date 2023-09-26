@@ -252,3 +252,32 @@ button {
 
 
 
+/* Style the project grid */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+  gap: 20px; /* Adjust the gap between items */
+  margin: 20px; /* Add margin around the grid */
+}
+
+/* Style each project item */
+.project-item {
+  text-align: center;
+}
+
+.project-item img {
+  max-width: 60%; /* Ensure images fit within their containers */
+}
+
+.project-item p {
+  margin: 0;
+  color: #333; /* Default text color */
+  transition: color 0.3s, font-weight 0.3s; /* Transition for text color and font-weight */
+}
+
+/* Hover effect for project items */
+.project-item:hover p {
+  color: #D3D3D3; /* Text color on hover */
+  font-weight: bold; /* Bold text on hover */
+}
+

@@ -15,11 +15,11 @@
     <!-- Header with custom JPEG image -->
     <header>
         <!-- You can add content or text here if needed -->
-        <div class="row">
-            <div class="col text-center">
-                <img src="assets/banner.png" class="mx-auto img-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <img src="assets/banner.png" class="mx-auto img-fluid">
+                </div>
             </div>
-        </div>
         <div class="container">
                 <div class="col-auto text-center">
                     <a href ="index.html" class="btn btn-link my-button">Home</a>
@@ -32,18 +32,26 @@
 
     <!-- Rest of your content goes here -->
     <div class="music-text">
-        <p>Here are some projects I have done in my spare time. Some of them might not work on mobile.</p>
+        <p>Oh no, you've become a sentient MRI machine. I guess the good thing is that you only have to worry about acquiring MRI images now though. But they don't really look like images to you... they're all in k-space. There's a patient in the machine right now and you have to acquire an image of their brain. Draw on the canvas on the left to pick up points in k-space. The image that the radiologist will see will appear on the right. Good luck.</p>
     </div>
 
-    <div class="project-grid">
-      <div class="project-item">
-        <a href="mrivisualizer.html">
-        <img src="assets/mrivis.png" alt="Project 1">
-        <p>MRI Sampling<br>Visualizer</p>
-        </a>
-      </div>
-      <!-- Add more project items as needed -->
+    <div class="canvas-container">
+        <canvas id="doodleCanvas"></canvas>
+        <canvas id="imageCanvas"></canvas>
     </div>
+    <div class="button-container">
+        <div class="slider-clear-container">
+          <div class="slider-container">
+            <label for="lineSizeSlider">Line Size:</label>
+            <input type="range" id="lineSizeSlider" min="1" max="100" value="5">
+          </div>
+          <button id="clearButton">Clear</button>
+        </div>
+
+    </div>
+    <script src="js/fourier.js"></script>
+    <script src="brainmri.js"></script>
+
 
     <!-- Link to Bootstrap JavaScript (CDN), if needed -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
