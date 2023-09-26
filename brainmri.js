@@ -371,6 +371,7 @@ lineSizeSlider.addEventListener('input', function () {
 const clearButton = document.getElementById('clearButton');
 clearButton.addEventListener('click', () => {
     doodleContext.clearRect(0, 0, doodleCanvas.width, doodleCanvas.height);
+    drawImage();
 });
 
 // Rest of your JavaScript code...
