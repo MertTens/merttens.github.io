@@ -349,7 +349,7 @@ function draw(e) {
     const yIdx = Math.floor(128*y/doodleCanvas.width)
 
 
-    doodleContext.lineWidth = 5;
+    doodleContext.lineWidth = 10;
     doodleContext.lineCap = 'round';
 
 
@@ -361,6 +361,11 @@ function draw(e) {
     doodleContext.moveTo(x, y);
     drawImage()
 }
+const lineSizeSlider = document.getElementById('lineSizeSlider');
+lineSizeSlider.addEventListener('input', function () {
+  // Update the line width based on the slider value
+  doodleContext.lineWidth = this.value;
+});
 
 // Clear button event listener for the doodle canvas
 const clearButton = document.getElementById('clearButton');
