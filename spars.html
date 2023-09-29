@@ -69,9 +69,9 @@
         <p> The algorithm I have developed for this is called Accelerated Dynamic Magnetic Resonance Imaging from Spatial-Subspace Reconstructions, or SPARS for short. I'll assume you know the details of MRI acquisition and some math from here on out. If not, click <a href="mri.html" style="color: #D3D3D3; font-weight: normal;">here</a>.</p>
         <p>I start by first continuously acquiring data using a golden angle radial acquisition (although any acquisition pattern is fine so long as retrospective frame rates are allowed). These acquired spokes are grouped into <em>L</em> radial spokes per frame. This grouping of spokes is reconstructed to create a low temporal, high spatial resolution reconstruction of the data with the following equation: </p>
 \[
-\hat{x} = \underset{x}{\mathrm{argmin}} ||\mathrm{H} x - y||_2^2 + \lambda ||\Phi(x)||_1 
+\hat{x}_{_L} = \underset{x_{_L}}{\mathrm{argmin}} ||\mathrm{H} x_{_L} - y_{_L}||_2^2 + \lambda ||\Phi(x_{_L})||_1 
 \]
-        <p>This is a standard compressed sensing setup with data consistency and sparsity terms. If you don't know much about compressed sensing, click <a href="cs.html" style="color: #D3D3D3; font-weight: normal;">here</a>. I could explain the rest of it, but I should check with the patent office if its alright. Anyways, here are some gifs of the results it produces. On the left is the standard reconstruction method, and on the right is my the output of my algorithm. The standard reconstruction method (NUFFT for those who know) looks like gibberish whereas mine looks like a human.</p>
+<p>This is a standard compressed sensing setup with data consistency and sparsity terms. If you don't know much about compressed sensing, click <a href="cs.html" style="color: #D3D3D3; font-weight: normal;">here</a>. Here, \(\hat{x}_{_L}\) is a reconstruction of a low temporal resolution grouping of the spokes, and \(y_{_L}\) is the low temporal resolution grouping of spokes at \(L\) spokes per frame. Anyways, here are some gifs of the results it produces. On the left is the standard reconstruction method, and on the right is my the output of my algorithm. The standard reconstruction method (NUFFT for those who know) looks like gibberish whereas mine looks like a human.</p>
 
     </div>
     <div class="center-gif">
