@@ -63,7 +63,7 @@
         <!-- Add more grid items as needed -->
     </div>
     <div class="research-text">
-        <p>My focus is dynamic contrast-enhanced MRI (DCE-MRI). The idea is that you inject a contrast agent into a person and take a video of their insides using MRI. The contrast agent will cause the inside of their body to light up. Different areas will light up different amounts depending on how much contrast agent gets there. For example, the kidney might light up more than the liver since more contrast agent gets to the kidney than the liver. Things will go normal as the contrast agent washes out of the body too.</p>
+        <p>The method I'm about to describe is on the ArXiv as SPARS. My focus is dynamic contrast-enhanced MRI (DCE-MRI). The idea is that you inject a contrast agent into a person and take a video of their insides using MRI. The contrast agent will cause the inside of their body to light up. Different areas will light up different amounts depending on how much contrast agent gets there. For example, the kidney might light up more than the liver since more contrast agent gets to the kidney than the liver. Things will go normal as the contrast agent washes out of the body too.</p>
         <p>In the video, you will be able to see things light up. By examining the enhancement pattern, you can discover properties of the microvessels in different areas of the body. This can give clinically relevant information. The gif below gives an example of a DCE-MRI video.</p>
         <p>It is important to have both a high framerate so that you accurately capture how signal intensity changes over time (things getting brighter), and a high spatial resolution so you can see all of the structures in the body. The nature of an MRI machine makes achieving both simultaneously very difficult. People approach this problem by undersampling data (meaning that they acquire less data than a standard MRI reconstruction tool needs), and they develop algorithms that intelligently guess what the data they didn't acquire is.</p>
         <p> The algorithm I have developed for this is called Accelerated Dynamic Magnetic Resonance Imaging from Spatial-Subspace Reconstructions, or SPARS for short. I'll assume you know the details of MRI acquisition and some math from here on out. If not, click <a href="mri.html" style="color: #D3D3D3; font-weight: normal;">here</a>.</p>
@@ -71,7 +71,28 @@
 \[
 \hat{x}_{_L} = \underset{x_{_L}}{\mathrm{argmin}} ||\mathrm{H} x_{_L} - y_{_L}||_2^2 + \lambda ||\Phi(x_{_L})||_1 
 \]
-<p>This is a standard compressed sensing setup with data consistency and sparsity terms. If you don't know much about compressed sensing, click <a href="cs.html" style="color: #D3D3D3; font-weight: normal;">here</a>. Here, \(\hat{x}_{_L}\) is a reconstruction of a low temporal resolution grouping of the spokes, and \(y_{_L}\) is the low temporal resolution grouping of spokes at \(L\) spokes per frame. Anyways, here are some gifs of the results it produces. On the left is the standard reconstruction method, and on the right is my the output of my algorithm. The standard reconstruction method (NUFFT for those who know) looks like gibberish whereas mine looks like a human.</p>
+<p>This is a standard compressed sensing setup with data consistency and sparsity terms. If you don't know much about compressed sensing, click <a href="cs.html" style="color: #D3D3D3; font-weight: normal;">here</a>. Here, \(\hat{x}_{_L}\) is a reconstruction of a low temporal resolution grouping of the spokes, and \(y_{_L}\) is the low temporal resolution grouping of spokes at \(L\) spokes per frame. The idea is that this low temporal resolution reconstruction contains all of the informatoin required to reconstruct at a high-temporal resolution. With singular value decomposition, we can extract a spatial subspace that is capable of representing the high-temporal resolution reconstruction. We start with a singular value decomposition on \(\hat{x}_{_L}\)...</p>
+
+\[
+\hat{x}_{_L} = \mathrm{USV^H} 
+\]
+
+<p>Here, the columns of \(\mathrm{U}\) and \(\mathrm{V}\) contain the complete spatial and temporal subspaces spanned by \(\hat{x}_{_L}\) respectively, and the diagonals of \(\mathrm{S}\) contain the singular values for each subspace vector. We now select the \(\mathrm{b}\) vectors from \(\mathrm{U}\) and \(\mathrm{V}\) with the largest singular values such that \(\mathrm{U_bS_bV_b^H}= \mathrm{USV^H}\). Now, the columns of \(\mathrm{U_b}\) contain the subspace vectors that will be used to reconstruct the high-temporal resolution dataset.</p>
+
+<p>The acquired data is reorganized into \(\mathrm{H}\) spokes per frame, such that \(\mathrm{H} \lt \mathrm{L}\), and the following problem is solved to generate the high-temporal resolution reconstruction problem.</p>
+
+\[
+\mathrm{\hat{x}_{_H}} = \mathrm{U_b\hat{A}_{_H}}\\
+\mathrm{\hat{A}_{_H}} = \underset{\mathrm{A_{_H}}}{\mathrm{argmin}} ||\mathrm{EU_bA_{_H}} - y_{_H}||_2^2 + \lambda ||\Phi(\mathrm{U_bA_{_H}})||_1 
+\]
+
+<p>Now, \(\mathrm{\hat{x}_{_H}}\) is the high-temporal resolution reconstructin of the data. In the convenient case that \(\lambda = 0\), then the following closed form solution can be used to solve for \(\mathrm{\hat{x}_{_H}}\):</p>
+
+\[
+\mathrm{\hat{A}_{_H}} = \left(\mathrm{U_b^HE^HEU_b}\right)^{-1}\mathrm{U^H_bE^Hy_{_H}}
+\]
+
+<p>We are able to get good reconstructions with as few as one spoke per frame. Here are some gifs of the results it produces with 3 spokes per frame. On the left is the standard reconstruction method, and on the right is my the output of my algorithm. The standard reconstruction method (NUFFT for those who know) looks like gibberish whereas mine looks like a human.</p>
 
     </div>
     <div class="center-gif">
