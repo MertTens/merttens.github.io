@@ -71,26 +71,6 @@
 \[
 \hat{x}_{_L} = \underset{x_{_L}}{\mathrm{argmin}} ||\mathrm{H} x_{_L} - y_{_L}||_2^2 + \lambda ||\Phi(x_{_L})||_1 
 \]
-<p>This is a standard compressed sensing setup with data consistency and sparsity terms. If you don't know much about compressed sensing, click <a href="cs.html" style="color: #D3D3D3; font-weight: normal;">here</a>. Here, \(\hat{x}_{_L}\) is a reconstruction of a low temporal resolution grouping of the spokes, and \(y_{_L}\) is the low temporal resolution grouping of spokes at \(L\) spokes per frame. The idea is that this low temporal resolution reconstruction contains all of the informatoin required to reconstruct at a high-temporal resolution. With singular value decomposition, we can extract a spatial subspace that is capable of representing the high-temporal resolution reconstruction. We start with a singular value decomposition on \(\hat{x}_{_L}\)...</p>
-
-\[
-\hat{x}_{_L} = \mathrm{USV^H} 
-\]
-
-<p>Here, the columns of \(\mathrm{U}\) and \(\mathrm{V}\) contain the complete spatial and temporal subspaces spanned by \(\hat{x}_{_L}\) respectively, and the diagonals of \(\mathrm{S}\) contain the singular values for each subspace vector. We now select the \(\mathrm{b}\) vectors from \(\mathrm{U}\) and \(\mathrm{V}\) with the largest singular values such that \(\mathrm{U_bS_bV_b^H}= \mathrm{USV^H}\). Now, the columns of \(\mathrm{U_b}\) contain the subspace vectors that will be used to reconstruct the high-temporal resolution dataset.</p>
-
-<p>The acquired data is reorganized into \(\mathrm{H}\) spokes per frame, such that \(\mathrm{H} \lt \mathrm{L}\), and the following problem is solved to generate the high-temporal resolution reconstruction problem.</p>
-
-\[
-\mathrm{\hat{x}_{_H}} = \mathrm{U_b\hat{A}_{_H}}\\
-\mathrm{\hat{A}_{_H}} = \underset{\mathrm{A_{_H}}}{\mathrm{argmin}} ||\mathrm{EU_bA_{_H}} - y_{_H}||_2^2 + \lambda ||\Phi(\mathrm{U_bA_{_H}})||_1 
-\]
-
-<p>Now, \(\mathrm{\hat{x}_{_H}}\) is the high-temporal resolution reconstructin of the data. In the convenient case that \(\lambda = 0\), then the following closed form solution can be used to solve for \(\mathrm{\hat{x}_{_H}}\):</p>
-
-\[
-\mathrm{\hat{A}_{_H}} = \left(\mathrm{U_b^HE^HEU_b}\right)^{-1}\mathrm{U^H_bE^Hy_{_H}}
-\]
 
 <p>We are able to get good reconstructions with as few as one spoke per frame. Here are some gifs of the results it produces with 3 spokes per frame. On the left is the standard reconstruction method, and on the right is my the output of my algorithm. The standard reconstruction method (NUFFT for those who know) looks like gibberish whereas mine looks like a human.</p>
 
