@@ -10,49 +10,40 @@
 
     <!-- Link to your custom CSS file -->
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <!-- Header with custom JPEG image -->
     <header>
         <!-- You can add content or text here if needed -->
+        <div class="container">
             <div class="row">
                 <div class="col text-center">
                     <img src="assets/banner.png" class="mx-auto img-fluid">
                 </div>
             </div>
-        <div class="container">
                 <div class="col-auto text-center">
                     <a href ="index.html" class="btn btn-link my-button">Home</a>
                     <a href ="research.html" class="btn btn-link my-button">Research</a>
                     <a href ="projects.html" class="btn btn-link my-button">Projects</a>
                     <a href ="music.html" class="btn btn-link my-button">Music</a>
-                    <a href ="news.html" class="btn btn-link my-button">News</a>
                 </div>
         </div>
     </header> 
 
-    <!-- Rest of your content goes here -->
-    <div class="music-text">
-        <p>Oh no, you've become a sentient MRI machine. I guess the good thing is that you only have to worry about acquiring MRI images now though. But they don't really look like images to you... they're all in k-space. There's a patient in the machine right now and you have to acquire an image of their brain. Draw on the canvas on the left to pick up points in k-space. The image that the radiologist will see will appear on the right. Good luck.</p>
-    </div>
-
-    <div class="canvas-container">
-        <canvas id="doodleCanvas"></canvas>
-        <canvas id="imageCanvas"></canvas>
-    </div>
-    <div class="button-container">
-        <div class="slider-clear-container">
-          <div class="slider-container">
-            <label for="lineSizeSlider">Line Size:</label>
-            <input type="range" id="lineSizeSlider" min="1" max="100" value="5">
-          </div>
-          <button id="clearButton">Clear</button>
+    <div class="menu-container">
+        <div class="menu-item">
+            <a href="news.html">
+                <img src="assets/reset.png" alt="RESET MRI">
+                <p>Images Every<br>Second</p>
+            </a>
         </div>
-
+        <!-- Add more grid items as needed -->
     </div>
-    <script src="js/fourier.js"></script>
-    <script src="brainmri.js"></script>
+    <!-- Rest of your content goes here -->
 
+
+            <iframe src="https://news.engineering.utoronto.ca/images-every-second-u-of-t-engineering-researchers-develop-rapid-mri-technique-for-better-cancer-detection-and-therapy/" width="100%" height="1000"></iframe>
 
     <!-- Link to Bootstrap JavaScript (CDN), if needed -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -60,4 +51,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
-
