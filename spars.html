@@ -64,29 +64,72 @@
         <!-- Add more grid items as needed -->
     </div>
     <div class="research-text">
-        <p>My focus is dynamic contrast-enhanced MRI (DCE-MRI). The idea is that you inject a contrast agent into a person and take a video of their insides using MRI. The contrast agent will cause the inside of their body to light up. Different areas will light up different amounts depending on how much contrast agent gets there. For example, the kidney might light up more than the liver since more contrast agent gets to the kidney than the liver. Things will go normal as the contrast agent washes out of the body too.</p>
-        <p>In the video, you will be able to see things light up. By examining the enhancement pattern, you can discover properties of the microvessels in different areas of the body. This can give clinically relevant information. The gif below gives an example of a DCE-MRI video.</p>
-        <p>It is important to have both a high framerate so that you accurately capture how signal intensity changes over time (things getting brighter), and a high spatial resolution so you can see all of the structures in the body. The nature of an MRI machine makes achieving both simultaneously very difficult. People approach this problem by undersampling data (meaning that they acquire less data than a standard MRI reconstruction tool needs), and they develop algorithms that intelligently guess what the data they didn't acquire is.</p>
-        <p> The algorithm I have developed for this is called Accelerated Dynamic Magnetic Resonance Imaging from Spatial-Subspace Reconstructions, or SPARS for short. I'll assume you know the details of MRI acquisition and some math from here on out. If not, click <a href="mri.html" style="color: #D3D3D3; font-weight: normal;">here</a>.</p>
-        <p>I start by first continuously acquiring data using a golden angle radial acquisition (although any acquisition pattern is fine so long as retrospective frame rates are allowed). These acquired spokes are grouped into <em>L</em> radial spokes per frame. This grouping of spokes is reconstructed to create a low temporal, high spatial resolution reconstruction of the data with the following equation: </p>
-\[
-\hat{x}_{_L} = \underset{x_{_L}}{\mathrm{argmin}} ||\mathrm{H} x_{_L} - y_{_L}||_2^2 + \lambda ||\Phi(x_{_L})||_1 
-\]
-<p>This is a standard compressed sensing setup with data consistency and sparsity terms. If you don't know much about compressed sensing, click <a href="cs.html" style="color: #D3D3D3; font-weight: normal;">here</a>. Here, \(\hat{x}_{_L}\) is a reconstruction of a low temporal resolution grouping of the spokes, and \(y_{_L}\) is the low temporal resolution grouping of spokes at \(L\) spokes per frame. The idea is that this low temporal resolution reconstruction contains all of the informatoin required to reconstruct at a high-temporal resolution. With singular value decomposition, we can extract a spatial subspace that is capable of representing the high-temporal resolution reconstruction. We start with a singular value decomposition on \(\hat{x}_{_L}\)and store some of the most significant basis vectors in \(\mathrm{U_b}\)</p>
+    <h2>Understanding the DCE-MRI Problem</h2>
+<p>
+Dynamic Contrast-Enhanced MRI (DCE-MRI) is a powerful imaging technique used to visualize blood flow and tissue characteristics in real time. By injecting a contrast agent and capturing a series of images, clinicians can observe how the agent moves through different parts of the body. This is crucial for diagnosing various conditions, such as cancer, where understanding blood supply to tissues is key.
+</p>
+<p>
+However, DCE-MRI faces a significant challenge: the need for both high temporal resolution (to capture fast changes in contrast uptake) and high spatial resolution (to see detailed structures). MRI machines inherently struggle to achieve both simultaneously due to the limitations in data acquisition speed. Therefore, the goal of many recent advancements is to accelerate DCE-MRI, enabling faster imaging without sacrificing image quality.
+</p>
+<p>
+To understand this challenge, it’s important to grasp the concept of <strong>k-space</strong>. K-space is a data matrix that MRI machines use to store the raw data acquired during a scan. It represents the spatial frequencies of the image, with the center of k-space containing low-frequency information (overall shape and contrast) and the outer regions containing high-frequency information (fine details and edges). Accurately reconstructing an image requires a balanced acquisition of both low and high-frequency data, which is difficult to achieve when trying to accelerate the scan.
+</p>
 
-<p>The acquired data is reorganized into \(\mathrm{H}\) spokes per frame, such that \(\mathrm{H} \lt \mathrm{L}\), and the following problem is solved to generate the high-temporal resolution reconstruction problem.</p>
+<h2>GRASP-Pro: A Temporal Subspace Approach</h2>
+<p>
+<strong>GRASP-Pro</strong> is a previous DCE-MRI acceleration method developed by Li Feng's group. This method is a sophisticated technique that seeks to overcome the limitations of traditional DCE-MRI by utilizing temporal subspaces to reconstruct high-quality images from under-sampled data.
+</p>
+<p>
+The core idea behind GRASP-Pro is that the dynamic changes in the MRI data can be captured in a low-dimensional temporal subspace. This approach works by first performing a low spatial resolution reconstruction of the MRI data to estimate this temporal subspace. The temporal subspace is then used to guide the reconstruction of high-resolution images, ensuring that both high temporal and spatial resolutions are maintained.
+</p>
+<p>
+However, despite its strengths, GRASP-Pro has a critical limitation: even when the temporal subspace is well-estimated, the nature of radial sampling used in the technique makes it difficult to accurately reconstruct the high-frequency regions of k-space. These regions are essential for capturing fine details and edges in the image, meaning that GRASP-Pro can struggle with producing accurate reconstructions in these areas.
+</p>
 
-\[
-\mathrm{\hat{x}_{_H}} = \mathrm{U_b\hat{A}_{_H}}\\
-\mathrm{\hat{A}_{_H}} = \underset{\mathrm{A_{_H}}}{\mathrm{argmin}} ||\mathrm{EU_bA_{_H}} - y_{_H}||_2^2 + \lambda ||\Phi(\mathrm{U_bA_{_H}})||_1 
-\]
+<h2>SPARS: Leveraging Spatial Subspaces</h2>
+<p>
+To address the limitations of GRASP-Pro, my work focuses on using spatial subspaces instead of temporal ones. The key insight is that spatial structures within the MRI data can be more robustly captured, even when increasing the temporal resolution.
+</p>
+<p>
+The <strong>SPARS</strong> (Spatial-Subspace Reconstructions) algorithm begins with a high-spatial, low-temporal resolution reconstruction from the acquired data. From this reconstruction, a spatial subspace is learned, capturing the essential features of the anatomy being imaged. This spatial subspace is then applied to reconstruct the data at a high temporal resolution, using fewer data points than would typically be required. This approach provides a more reliable reconstruction in regions of the data where temporal subspace methods like GRASP-Pro might struggle, particularly in the under-sampled high-frequency regions of k-space.
+</p>
 
-<p>Now, \(\mathrm{\hat{x}_{_H}}\) is the high-temporal resolution reconstructin of the data.</p>
+<h2>A Technical Description of the SPARS Algorithm</h2>
 
+<p><strong>1. Initial Reconstruction:</strong></p>
+<ul>
+    <li>We begin by continuously acquiring data using a radial acquisition pattern, grouping the data into <em>L</em> radial spokes per frame.</li>
+    <li>The following equation is used to reconstruct a low-temporal, high-spatial resolution image:</li>
+    \[
+    \hat{x}_{_L} = \underset{x_{_L}}{\mathrm{argmin}} \left\| \mathrm{H} x_{_L} - y_{_L} \right\|_2^2 + \lambda \left\| \Phi(x_{_L}) \right\|_1 
+    \]
+    <li>Here, \(\hat{x}_{_L}\) represents the reconstructed image from the <em>L</em> grouped spokes, \(y_{_L}\) is the acquired data, and \(\Phi\) is a sparsifying transform applied to the image.</li>
+</ul>
 
-<p>We are able to get good reconstructions with as few as one spoke per frame. Here are some gifs of the results it produces with 3 spokes per frame. On the left is the standard reconstruction method, and on the right is my the output of my algorithm. The standard reconstruction method (NUFFT for those who know) looks like gibberish whereas mine looks like a human.</p>
+<p><strong>2. Learning the Spatial Subspace:</strong></p>
+<ul>
+    <li>Singular Value Decomposition (SVD) is applied to \(\hat{x}_{_L}\) to extract the most significant spatial basis vectors, denoted by \(\mathrm{U_b}\).</li>
+    <li>These basis vectors capture the essential spatial features of the anatomy across the time series.</li>
+</ul>
 
-<p>Hopefully I will soon be able to link to the full work where I show more results and compare my work to the current (at the time of writing this) state-of-the-art reconstruction algorithms, namely GRASP-Pro</p>
+<p><strong>3. High-Temporal Resolution Reconstruction:</strong></p>
+<ul>
+    <li>The acquired data is reorganized into \(\textit{H}\) spokes per frame, where \(\textit{H} < \textit{L}\), increasing the temporal resolution.</li>
+    <li>The high-temporal resolution image is then reconstructed using the learned spatial subspace:</li>
+    \[
+    \hat{x}_{_H} = \mathrm{U_b} \hat{A}_{_H}
+    \]
+    \[
+    \hat{A}_{_H} = \underset{\mathrm{A_{_H}}}{\mathrm{argmin}} \left\| \mathrm{EU_bA_{_H}} - y_{_H} \right\|_2^2 + \lambda \left\| \Phi(\mathrm{U_bA_{_H}}) \right\|_1 
+    \]
+    <li>Here, \(\hat{x}_{_H}\) is the high-temporal resolution image, and \(\hat{A}_{_H}\) represents the coefficients for the spatial basis vectors.</li>
+</ul>
+
+<p>
+By using spatial subspaces, the SPARS algorithm is able to provide high-quality reconstructions even with severe under-sampling, making it a valuable tool for accelerating DCE-MRI while preserving both temporal and spatial details.
+</p>
+
+<p> We are able to achieve high-quality reconstructions even with as few as one spoke per frame. Below are examples of the results produced with three spokes per frame. On the left is the result from a standard reconstruction method, and on the right is the output from my algorithm. The standard method (using NUFFT) produces images with significant artifacts and noise, while my algorithm successfully reconstructs clear and accurate images, preserving the anatomical structures.</p>
 
     </div>
     <div class="center-gif">
