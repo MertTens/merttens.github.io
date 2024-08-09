@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stony</title>
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
 
     <!-- Link to Bootstrap CSS (CDN) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
@@ -60,7 +63,97 @@
     </div>
     <!-- Rest of your content goes here -->
     <div class="research-text">
-        Coming soon :)
+    <h2>Estimating PK Parameters in DCE-MRI Without an AIF</h2>
+
+<p>
+Dynamic Contrast-Enhanced MRI (DCE-MRI) is a powerful tool for analyzing microvascular function and diagnosing various conditions, including cancer. The estimation of pharmacokinetic (PK) parameters such as the volume transfer constant <i>K<sup>trans</sup></i>, the extracellular extravascular volume fraction (<i>v<sub>e</sub></i>), and the plasma volume (<i>v<sub>p</sub></i>) is crucial in this process. Traditionally, these parameters are derived using the Arterial Input Function (AIF), which represents the concentration of a contrast agent in the blood over time.
+</p>
+
+<h3>The Challenge with AIF</h3>
+
+<p>
+The accurate measurement of the AIF is challenging due to the need for high temporal resolution, potential errors from using alternative AIFs, and difficulties in capturing the true AIF that feeds the tissue of interest. These challenges often lead to inaccuracies in PK parameter estimation, which can compromise the clinical utility of DCE-MRI.
+</p>
+
+<h3>AIF-Free Approaches</h3>
+
+<p>
+To address these issues, various AIF-free techniques have been developed. These methods can be broadly categorized into unconstrained, constrained, and machine learning approaches:
+</p>
+
+<ul>
+    <li><strong>Unconstrained Methods:</strong> These do not assume any specific form of the AIF, offering flexibility but often struggling with noise and non-convex optimization problems. Notable examples include Iterative Quadratic Maximum-Likelihood (IQML) and Eigenvector-Based Algorithm for Multichannel Blind Deconvolution (EVAM).</li>
+    <li><strong>Constrained Methods:</strong> These approaches impose a parameterized model on the AIF, reducing the number of free parameters and enhancing robustness to noise. Methods like Model-Based Blind Estimation and Model-Constrained Monte Carlo have shown promise by assuming that the AIF can be represented by a combination of functions, such as gamma functions and sigmoids. In both constrained and unconstrained approaches, parameter estimation is typically performed using descent methods, where the algorithm iteratively adjusts the parameters to minimize the difference between the measured and predicted data.</li>
+    <li><strong>Machine Learning (ML) Approaches:</strong> These methods leverage the power of machine learning to estimate PK parameters directly from the DCE-MRI data, bypassing the need for an explicit AIF. In these approaches, a neural network or other ML model is trained on a large dataset of DCE-MRI images, where the AIF and PK parameters are either known or simulated. The model learns to map the input DCE-MRI time series to the desired PK parameter maps. This can be done with either fully sampled or undersampled data.
+        <ul>
+            <li><strong>Example 1:</strong> A convolutional neural network (CNN) is trained to take a sequence of DCE-MRI images as input and directly output maps of <i>K<sup>trans</sup></i>, <i>v<sub>e</sub></i>, and <i>v<sub>p</sub></i> without requiring an AIF. The network is trained on a large dataset where the ground truth PK parameter maps are known, enabling it to learn the complex relationships between the DCE-MRI signal and the PK parameters.</li>
+            <li><strong>Example 2:</strong> An ML model is trained on undersampled DCE-MRI data, where the model not only estimates the PK parameters but also performs implicit reconstruction of the images. This approach is particularly useful in accelerating the MRI acquisition process while maintaining high accuracy in PK parameter estimation.</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Toft’s Model</h3>
+
+<p>
+A widely used model in DCE-MRI for estimating PK parameters is the Toft’s model. This model describes the transfer of contrast agent between blood plasma and tissue and is expressed as:
+</p>
+
+<p>
+\[
+C_t(t) = K^{\text{trans}} \int_0^t C_p(\tau) e^{-k_{ep}(t-\tau)} d\tau
+\]
+</p>
+
+<p>
+where:
+</p>
+
+<ul>
+    <li>\(C_t(t)\) is the concentration of the contrast agent in the tissue at time \(t\),</li>
+    <li>\(C_p(t)\) is the concentration of the contrast agent in the plasma (AIF),</li>
+    <li>\(K^{\text{trans}}\) is the volume transfer constant between plasma and the extravascular extracellular space,</li>
+    <li>\(k_{ep}\) is the rate constant between the extracellular extravascular space and plasma.</li>
+</ul>
+
+<p>
+An extended version of the Toft’s model also includes the plasma volume fraction (\(v_p\)):
+</p>
+
+<p>
+\[
+C_t(t) = v_p C_p(t) + K^{\text{trans}} \int_0^t C_p(\tau) e^{-k_{ep}(t-\tau)} d\tau
+\]
+</p>
+
+<h3>My Approach</h3>
+
+<p>
+In my research, I leverage machine learning to estimate PK parameters and the Arterial Input Function (AIF) directly from a pool of measured contrast-time curves, a method that closely aligns with traditional unconstrained approaches. Unlike typical machine learning applications in DCE-MRI, which often focus on image reconstruction, my approach is unique in that it utilizes machine learning as a sophisticated curve-fitting tool.
+</p>
+
+<h3>Tailored Machine Learning Models</h3>
+
+<p>
+Rather than aiming for a generalized model that can be applied across various datasets, I focus on creating machine learning models tailored to individual patients. This personalized approach allows the model to be finely tuned to the specific characteristics of a patient’s data, potentially leading to more accurate and reliable estimates of PK parameters and the AIF.
+</p>
+
+<p>
+In traditional constrained and unconstrained approaches, parameter estimation is typically performed using descent methods, where the algorithm iteratively adjusts the parameters to minimize the difference between the measured and predicted data. My approach differs by using a machine learning model that can optimize this process more effectively, directly learning the relationships between the contrast-time curves, AIF, and PK parameters.
+</p>
+
+<p>
+The flexibility of this method comes from the fact that the network can be directly evaluated by how well the estimated contrast-time curves, AIF, and PK parameters fit within the established pharmacokinetic model, such as the Toft’s model. By assessing the fit quality, the network can be optimized for each patient, ensuring that the model provides the most accurate representation of the underlying physiological processes.
+</p>
+
+<h3>Advantages of My Approach</h3>
+
+<p>
+This patient-specific adaptation not only allows for more precise estimates but also enhances the clinical utility of the model. While a general neural network could perform adequately across different patients, the tailored approach offers the potential for higher accuracy by focusing on the unique features of each patient’s data.
+</p>
+
+<p>
+By directly estimating the AIF and PK parameters from measured contrast-time curves without the need for an explicit image reconstruction, my method streamlines the DCE-MRI analysis process, potentially making it faster and more robust to the specific challenges associated with AIF measurement.
+</p>
     </d>
 
     <!-- Link to Bootstrap JavaScript (CDN), if needed -->
