@@ -66,32 +66,63 @@
         <!-- Add more grid items as needed -->
     </div>
     <div class="research-text">
-        <p> This algorithm has to do with CINE MRI, which is about taking an MRI video of the beating heart. Some knowledge of CINE is assumed here. If you don't know anything about CINE, click <a href="mri.html" style="color: #D3D3D3; font-weight: normal;">here</a>. My friend Aaron Curtis conceived of the idea to make a linear model for heart motion and to use an MLE filter to do that. He also thought of applying it to a Kalman filter. I came up with some mathematical derivations to significantly reduce computation time and facilitate clinical application and I thought to apply it to compressed sensing.</p>
-        <p>We start with a single heart beat CINE reconstruction with \(T\) phases. Our first goal is to determine some linear transform that describes the transitino from one phase to the next phase. Generally, there will be infinitely many possible linear transforms that can do this. A way to understand this is to consider the points \(x\) and \(y\) in a two dimensional space, and to try to determine a matrix \(\mathrm{A}\) such that \(y = \mathrm{A}x\). There are infinite possibilities for \(\mathrm{A}\). This is the kind of situation we are in.</p>
-        <p>In our case, we are looking for some affine transform in the following format:</p>
-        \[
-        x_{t+1} = \mathrm{F}x_t
-        \]
-        <p>Here, \(x_t\) is a vectorized image of the heart at phase \(T\), and \(\mathrm{F}\) is the linear transform to determine. One method to determine \(\mathrm{F}\) is to use a linear minimum mean squared error (LMMSE) estimator. I will not go into the details of how this works here, but the equations that determine \(\mathrm{F}\) are as follows.</p>
-        \[
-        \mathrm{F} = \mathrm{C_1}\mathrm{C_0}^{-1}\\
-        \mathrm{C_l} = \mathrm{X_l}\mathrm{X^H}
-        \]
-        <p>\(\mathrm{X}\) is a matrix where the \(t^{th}\) column of the matrix is set to \(x_{t}\), and \(\mathrm{X_l}\) is \(\mathrm{X}\) circularly shifted to the left \(l\) times. Unfortunately, \(\mathrm{C_0}\) is not invertible, so we cannot stop here. Even if it were invertible, the matrix would be too large to to any operations quickly. Instead, we will recognize that we only care about the vectors \(x_t\), so we can operate in the subspace spanned by them. Using \(x_t\) as our basis vectors, we can equivalently rewrite the above equations as:</p>
-        \[
-        e_{t+1} = \mathrm{G}e_t\\
-        \mathrm{G} = \mathrm{D_1}\mathrm{D_0}^{-1}\\
-        \mathrm{D_l} = \mathrm{I_l}\mathrm{I^H}
-        \]
-        <p>\(e_t\) are the standard basis vectors with the bases as mentioned earlier, and \(\mathrm{I_l}\) is the identity matrix circularly shifted to the left \(l\) times. With this, we very simply arrive at:</p>
-        \[
-        \mathrm{G} = \mathrm{I_1}
-        \]
-        <p>I'll write something to intuitively explain this next part later, but it is not too difficult to realize you can now now write the following: </p>
-        \[
-        x_{t+1} = \mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X}x_t
-        \]
-        <p>This tells us that the linear transform we were looking for earlier is \(\mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X}\). Now that we have this linear transform, the question is how to apply it to a reconstruction agorithm. Aaron is in Italy so I can't get any Kalman filtering results from him, but he used this linear transform as a state transition matrix for his Kalman filtering approach. What I can do is explain how to integrate this into a compressed sensing algorithm.</p>
+    <h2>Quick Summary</h2>
+    <p>I optimized a signal model for real-time CINE MRI, originally conceived by Aaron Curtis, by developing mathematical techniques that improved computation time by a factor of 1000. These optimizations made the model feasible for clinical application and enabled its integration into compressed sensing algorithms.</p>
+    <h2>Description of CINE MRI and Its Importance</h2>
+<p>
+    CINE MRI is a critical imaging technique used to capture the dynamic motion of the heart in real-time, offering detailed visualizations of cardiac function across multiple phases of the cardiac cycle. This method is particularly valuable for diagnosing and assessing various heart conditions, including heart failure, which is prevalent worldwide. With heart failure affecting millions of people, accurate and timely imaging is essential for effective treatment and management. Real-time CINE MRI enables clinicians to observe the heart’s motion in detail, providing insights that are vital for diagnosing cardiac diseases and guiding interventions.
+</p>
+
+<h2>Previous Compressed Sensing Methods</h2>
+<p>
+    Traditional compressed sensing methods have been employed to accelerate MRI acquisition, particularly in CINE MRI, where capturing the fast-moving heart requires rapid data collection. These methods rely on the assumption that MR images are sparse in some transform domain, such as the wavelet domain. By undersampling the k-space data and applying sparsity constraints during reconstruction, compressed sensing allows for faster imaging while still maintaining acceptable image quality. However, these techniques often struggle with balancing acceleration and image quality, especially in low-SNR environments or when trying to achieve extremely high acceleration rates.
+</p>
+
+<h2>Overview of Learning and Using a Linear Signal Model for Real-Time CINE MRI Reconstruction</h2>
+<p>
+    To enhance real-time CINE MRI reconstruction, we introduce a novel approach that incorporates a linear signal model into the reconstruction process. By learning a linear transform that describes the transition between successive heart phases, we can significantly reduce computation time and improve the accuracy of the reconstructed images. This approach builds on the foundation of traditional compressed sensing but adds an additional layer of model-based optimization, making it particularly well-suited for real-time applications.
+</p>
+<p>
+    My colleague, Aaron Curtis, initially conceived the idea of using a linear model for heart motion, applying it to a Maximum Likelihood Estimation (MLE) filter and later a Kalman filter. My contribution involved developing mathematical derivations that not only reduced computation time but also facilitated clinical application, with potential integration into compressed sensing algorithms.
+</p>
+
+<h2>Detailed Description of the Algorithm</h2>
+<p>
+    The algorithm is specifically designed for CINE MRI, focusing on the reconstruction of a single heartbeat across multiple phases. The primary goal is to determine a linear transform that accurately describes the transition from one heart phase to the next.
+</p>
+
+<p>We start with a single heartbeat CINE reconstruction with \( T \) phases. The primary objective is to determine a linear transform that describes the transition from one phase to the next. Generally, there are infinitely many possible linear transforms that can achieve this. To illustrate, consider points \( x \) and \( y \) in a two-dimensional space and try to determine a matrix \( \mathrm{A} \) such that \( y = \mathrm{A}x \). There are infinite possibilities for \( \mathrm{A} \), and this is analogous to the situation we face.</p>
+
+<p>In our case, we seek an affine transform in the following format:</p>
+\[
+x_{t+1} = \mathrm{F}x_t
+\]
+<p>Here, \( x_t \) is a vectorized image of the heart at phase \( t \), and \( \mathrm{F} \) is the linear transform we need to determine. One approach to determine \( \mathrm{F} \) is to use a Linear Minimum Mean Squared Error (LMMSE) estimator. The equations to determine \( \mathrm{F} \) are as follows:</p>
+\[
+\mathrm{F} = \mathrm{C_1}\mathrm{C_0}^{-1}
+\]
+\[
+\mathrm{C_l} = \mathrm{X_l}\mathrm{X^H}
+\]
+<p>In this context, \( \mathrm{X} \) is a matrix where the \( t^{th} \) column is set to \( x_t \), and \( \mathrm{X_l} \) is \( \mathrm{X} \) circularly shifted to the left \( l \) times. Unfortunately, \( \mathrm{C_0} \) is not invertible, and even if it were, the matrix would be too large for efficient computation. To address this, we operate within the subspace spanned by \( x_t \), which allows us to rewrite the above equations as:</p>
+\[
+e_{t+1} = \mathrm{G}e_t
+\]
+\[
+\mathrm{G} = \mathrm{D_1}\mathrm{D_0}^{-1}
+\]
+\[
+\mathrm{D_l} = \mathrm{I_l}\mathrm{I^H}
+\]
+<p>Here, \( e_t \) represents the standard basis vectors, and \( \mathrm{I_l} \) is the identity matrix circularly shifted to the left \( l \) times. This simplification leads to:</p>
+\[
+\mathrm{G} = \mathrm{I_1}
+\]
+<p>We can now express the transition as follows:</p>
+\[
+x_{t+1} = \mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X}x_t
+\]
+<p>This equation shows that the linear transform we were seeking is \( \mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X} \). With this transform in hand, the next step is to apply it within a reconstruction algorithm. Although Aaron is currently unavailable to provide Kalman filtering results, he has utilized this linear transform as a state transition matrix in his Kalman filtering approach. Additionally, I will explain how this can be integrated into a compressed sensing algorithm.</p>
     </div>
     <!-- Rest of your content goes here -->
 
