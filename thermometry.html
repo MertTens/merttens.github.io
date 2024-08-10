@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stony</title>
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+
+    <!-- Link to Bootstrap CSS (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Link to your custom CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header with custom JPEG image -->
+    <header>
+        <!-- You can add content or text here if needed -->
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <img src="assets/banner.png" class="mx-auto img-fluid">
+                </div>
+            </div>
+            <div class="col-auto text-center">
+                <a href ="index.html" class="btn btn-link my-button">Home</a>
+                <a href="research.html" class="btn btn-link my-button">Research</a>
+                <a href="projects.html" class="btn btn-link my-button">Projects</a>
+                <a href="music.html" class="btn btn-link my-button">Music</a>
+                <a href="news.html" class="btn btn-link my-button">News</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="menu-container">
+        <div class="menu-item">
+            <a href="thermometry.html">
+                <img src="assets/reset.png" alt="RESET MRI">
+                <p>T SPARS</p>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a href="spars.html">
+                <img src="assets/spars.png" alt="SPARS MRI">
+                <p>SPARS</p>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a href="cine.html">
+                <img src="assets/cine.png" alt="Project 2">
+                <p>Linear Cardiac<br>Model</p>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a href="noaif.html">
+                <img src="assets/noaif.png" alt="AIF-FREE DCE MRI">
+                <p>DCE-MRI Without<br>an AIF</p>
+            </a>
+        </div>
+        <!-- Add more grid items as needed -->
+    </div>
+    <div class="research-text">
+
+    <h2>Quick Summary</h2>
+
+    <p>Using data provided by Synaptive Medical, I developed a new reconstruction algorithm for low SNR MR thermometry. It makes it possible to monitor temperatures inside the human body in real time with high spatial resolution, even at very high undersampling rates.</p>
+    <h2>Real-Time Acceleration in Low SNR MR Thermometry</h2>
+
+<p>
+<strong>MR thermometry</strong> is a technique used to measure and monitor temperature changes within the body in real-time, primarily during thermal therapies such as focused ultrasound or RF ablation. This technology is crucial for ensuring that targeted tissues reach the desired temperature while avoiding damage to surrounding healthy tissues.
+</p>
+
+<p>
+<strong>Real-time acceleration methods</strong> in MR thermometry are essential for providing immediate temperature feedback during these procedures. In low SNR environments, like those found in 0.5T scanners, achieving real-time imaging is challenging due to the inherently lower signal strength and higher noise levels.
+</p>
+
+<h3>Key Real-Time Acceleration Techniques:</h3>
+
+<ul>
+    <li><strong>Parallel Imaging:</strong> Techniques like SENSE and GRAPPA enable real-time MR thermometry by utilizing multiple receiver coils to simultaneously acquire data, thereby reducing acquisition times. These methods are especially effective in low SNR environments, as they allow for rapid temperature monitoring with minimal delay, making them suitable for real-time applications.</li>
+
+    <li><strong>Echo Planar Imaging (EPI):</strong> EPI is a fast imaging technique that can acquire an entire image in a single shot, which is essential for real-time MR thermometry. Despite being prone to artifacts, EPI’s speed makes it highly valuable for continuous temperature monitoring during thermal therapies, particularly when immediate feedback is necessary.</li>
+
+    <li><strong>Model-Based Reconstruction:</strong> Integrating physical models of heat transfer directly into the reconstruction process enables the real-time estimation of temperature. This approach helps in filtering out noise and improving the accuracy of temperature maps as they are generated, ensuring that clinicians receive reliable data instantly.</li>
+
+    <li><strong>Deep Learning-Based Methods:</strong> Deep learning models, particularly those designed for real-time processing, can be employed to reconstruct temperature maps directly from incoming data streams. These models are trained to suppress noise and deliver instantaneous temperature updates, making them ideal for use in low SNR environments where fast and accurate temperature readings are critical.</li>
+</ul>
+
+<h3>Why Real-Time Acceleration is Important:</h3>
+
+<p>
+Real-time acceleration methods are vital for the precise and safe delivery of thermal therapies. By providing immediate feedback on temperature changes, these methods allow clinicians to make quick, informed decisions during the procedure, thereby enhancing treatment effectiveness and reducing the risk of damage to surrounding healthy tissues. In low-field MRI systems, where SNR is a limiting factor, real-time methods ensure that MRI-guided thermal therapies can be effectively implemented, even in settings with limited resources.
+</p>
+    <!-- Rest of your content goes here -->
+
+    <!-- Link to Bootstrap JavaScript (CDN), if needed -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
