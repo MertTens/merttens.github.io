@@ -68,6 +68,9 @@
     <h2>Quick Summary</h2>
 
     <p>Using data provided by Synaptive Medical, I developed a new reconstruction algorithm for low SNR MR thermometry. It makes it possible to monitor temperatures inside the human body in real time with high spatial resolution, even at very high undersampling rates.</p>
+    <div class="center-gif">
+        <img src="assets/tempovertime.jpg" alt="A GIF Image">
+    </div>
     <h2>Real-Time Acceleration in Low SNR MR Thermometry</h2>
 
 <p>
@@ -95,6 +98,21 @@
 <p>
 Real-time acceleration methods are vital for the precise and safe delivery of thermal therapies. By providing immediate feedback on temperature changes, these methods allow clinicians to make quick, informed decisions during the procedure, thereby enhancing treatment effectiveness and reducing the risk of damage to surrounding healthy tissues. In low-field MRI systems, where SNR is a limiting factor, real-time methods ensure that MRI-guided thermal therapies can be effectively implemented, even in settings with limited resources.
 </p>
+
+<h2>My Approach</h2>
+
+<p>My approach to MR thermometry is based on spatial subspaces and was developed using phantom data provided by Synaptive Medical. With this phantom data, it is known which parts of the phantom will change in temperature and the spatial distribution of these changes. A similar clinical use case might be laser ablation, where the location of temperature change is known, and the spatial distribution is generally Gaussian.</p>
+
+<ol>
+    <li><strong>Constructing the Spatial Subspace:</strong> Based on the known spatial distribution and location of temperature change, I construct a high-resolution spatial subspace that can accurately represent the temperature changes.</li>
+    <li><strong>Real-Time Data Acquisition and Fitting:</strong> During the ablation process, k-space data is acquired. Ideally, k-space sampling focuses on areas close to DC, where most of the information resides. As the data is acquired, I fit the spatial subspace to the incoming data in real-time.</li>
+    <li><strong>Kalman Filtering for Error Correction:</strong> To account for any errors or noise in the measurement and reconstruction process, a Kalman filter is applied at each pixel (or group of pixels) independently over time, enhancing the accuracy of the temperature maps.</li>
+</ol>
+    <div class="center-gif">
+        <img src="assets/tempovertime.jpg" alt="A GIF Image">
+    </div>
+
+<p>Above shows the tempoerature over time in the phantom. In orange is the original fully sampled dataset, and in blue is the result of my algorithm running on a 45x undersampled version of the same dataset. While the results with the phantom data are promising, adapting this algorithm for use with laser ablation data, where the temperature distribution is Gaussian, will require further development. This remains an area for future research.</p>
     <!-- Rest of your content goes here -->
 
     <!-- Link to Bootstrap JavaScript (CDN), if needed -->

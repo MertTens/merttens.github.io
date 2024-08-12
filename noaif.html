@@ -127,35 +127,43 @@ C_t(t) = v_p C_p(t) + K^{\text{trans}} \int_0^t C_p(\tau) e^{-k_{ep}(t-\tau)} d\
 \]
 </p>
 
-<h3>My Approach</h3>
+<h2>My Approach</h2>
 
-<p>
-In my research, I leverage machine learning to estimate PK parameters and the Arterial Input Function (AIF) directly from a pool of measured contrast-time curves, a method that closely aligns with traditional unconstrained approaches. Unlike typical machine learning applications in DCE-MRI, which often focus on image reconstruction, my approach is unique in that it utilizes machine learning as a sophisticated curve-fitting tool.
-</p>
+<p>In my research, I employ a machine learning approach to estimate PK parameters and the Arterial Input Function (AIF) directly from measured contrast-time curves. This approach involves two neural networks: one dedicated to learning the AIF and another to learning the PK parameters.</p>
 
-<h3>Tailored Machine Learning Models</h3>
+<h3>Noteworthy Limitation</h3>
 
-<p>
-Rather than aiming for a generalized model that can be applied across various datasets, I focus on creating machine learning models tailored to individual patients. This personalized approach allows the model to be finely tuned to the specific characteristics of a patient’s data, potentially leading to more accurate and reliable estimates of PK parameters and the AIF.
-</p>
+<p>A key limitation in this process is that the AIF, Ktrans, and vp (if using the extended Tofts model) can only be learned within the same scaling constant. While Kep can be learned exactly, mathematically, it’s impossible to determine this constant without additional information, such as periodic blood sampling during the imaging process.</p>
 
-<p>
-In traditional constrained and unconstrained approaches, parameter estimation is typically performed using descent methods, where the algorithm iteratively adjusts the parameters to minimize the difference between the measured and predicted data. My approach differs by using a machine learning model that can optimize this process more effectively, directly learning the relationships between the contrast-time curves, AIF, and PK parameters.
-</p>
+<h3>Network Structure</h3>
 
-<p>
-The flexibility of this method comes from the fact that the network can be directly evaluated by how well the estimated contrast-time curves, AIF, and PK parameters fit within the established pharmacokinetic model, such as the Toft’s model. By assessing the fit quality, the network can be optimized for each patient, ensuring that the model provides the most accurate representation of the underlying physiological processes.
-</p>
+<p>The input to both networks is a group of four measured contrast-time curves. The AIF network outputs the AIF it believes generated these curves, while the PK network outputs the Ktrans and Kep associated with the first of the four curves.</p>
+
+<h3>Step-by-Step Approach</h3>
+
+<ol>
+    <li><strong>Initial Training:</strong> The AIF network is first trained by having it learn the population average AIF.</li>
+    <li><strong>Joint Training:</strong> Both networks are then trained together. The loss function is computed by using the network outputs and the Tofts model to determine what the input Ct curve would have been, followed by calculating the Mean Squared Error (MSE) between the actual input Ct curve and the back-calculated one.</li>
+    <li><strong>Advanced Training:</strong> The networks undergo further training with a technique that involves averaging predictions across multiple runs. This process is structured as follows:
+        <ul>
+            <li>The four inputs are used to generate predicted AIFs and PK parameters.</li>
+            <li>The last three inputs are then swapped out, and new predictions are made for the remaining input.</li>
+            <li>This is repeated multiple times, and the final PK prediction is the average of all predictions, training the network to be correct on average.</li>
+        </ul>
+    </li>
+    <li><strong>Final Use Case:</strong> The final trained network allows the user to perform similar swapping and select the AIF/PK parameter pairs that best fit the Tofts model from the multiple results produced.</li>
+</ol>
 
 <h3>Advantages of My Approach</h3>
 
-<p>
-This patient-specific adaptation not only allows for more precise estimates but also enhances the clinical utility of the model. While a general neural network could perform adequately across different patients, the tailored approach offers the potential for higher accuracy by focusing on the unique features of each patient’s data.
-</p>
+<p>This approach offers several advantages:</p>
 
-<p>
-By directly estimating the AIF and PK parameters from measured contrast-time curves without the need for an explicit image reconstruction, my method streamlines the DCE-MRI analysis process, potentially making it faster and more robust to the specific challenges associated with AIF measurement.
-</p>
+<ul>
+    <li><strong>Patient-Specific Adaptation:</strong> By tailoring the model to individual patients, I achieve more accurate and reliable estimates, optimizing the process beyond traditional methods.</li>
+    <li><strong>Multiple Result Selection:</strong> The network is designed to produce multiple results, allowing for the selection of the best-fitting AIF/PK parameter pairs, rather than relying on a single result. This enhances the robustness and reliability of the predictions.</li>
+    <li><strong>Enhanced Clinical Utility:</strong> This patient-specific adaptation not only allows for more precise estimates but also enhances the clinical utility of the model. By directly estimating the AIF and PK parameters from measured contrast-time curves without the need for explicit image reconstruction, this method streamlines the DCE-MRI analysis process, making it faster and more robust to the specific challenges associated with AIF measurement.</li>
+</ul>
+
     </d>
 
     <!-- Link to Bootstrap JavaScript (CDN), if needed -->

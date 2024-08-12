@@ -68,6 +68,9 @@
     <div class="research-text">
     <h2>Quick Summary</h2>
     <p>I optimized a signal model for real-time CINE MRI, originally conceived by Aaron Curtis, by developing mathematical techniques that improved computation time by a factor of 1000. These optimizations made the model feasible for clinical application and enabled its integration into compressed sensing algorithms.</p>
+    <div class="center-gif">
+        <img src="assets/cine_figure.jpg" alt="A GIF Image">
+    </div>
     <h2>Description of CINE MRI and Its Importance</h2>
 <p>
     CINE MRI is a critical imaging technique used to capture the dynamic motion of the heart in real-time, offering detailed visualizations of cardiac function across multiple phases of the cardiac cycle. This method is particularly valuable for diagnosing and assessing various heart conditions, including heart failure, which is prevalent worldwide. With heart failure affecting millions of people, accurate and timely imaging is essential for effective treatment and management. Real-time CINE MRI enables clinicians to observe the heart’s motion in detail, providing insights that are vital for diagnosing cardiac diseases and guiding interventions.
@@ -122,7 +125,10 @@ e_{t+1} = \mathrm{G}e_t
 \[
 x_{t+1} = \mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X}x_t
 \]
-<p>This equation shows that the linear transform we were seeking is \( \mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X} \). With this transform in hand, the next step is to apply it within a reconstruction algorithm. Although Aaron is currently unavailable to provide Kalman filtering results, he has utilized this linear transform as a state transition matrix in his Kalman filtering approach. Additionally, I will explain how this can be integrated into a compressed sensing algorithm.</p>
+<p>This equation shows that the linear transform we were seeking is \( \mathrm{XI_1}\left(X^H X\right)^{-1}\mathrm{X} \). Below shows the result of this signal model applied to a Kalman filtering algorithm and a compressed sensing algorithm. A standard compressed sensing implementation without a signal model is also shown for comparison.</p>
+    <div class="center-gif">
+        <img src="assets/cine_figure.jpg" alt="A GIF Image">
+    </div>
     </div>
     <!-- Rest of your content goes here -->
 
