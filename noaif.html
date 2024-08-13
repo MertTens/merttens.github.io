@@ -64,7 +64,10 @@
     <!-- Rest of your content goes here -->
     <div class="research-text">
     <h2>Quick Summary</h2>
-    <p>I developed a novel machine learning approach for DCE-MRI to estimate PK parameters and the AIF directly from contrast-time curves, without needing explicit AIF measurement. By tailoring a neural network to individual patients, I can achieve more accurate and reliable results, optimizing the process beyond traditional methods. </p>
+    <p>I developed a novel machine learning approach for DCE-MRI to estimate PK parameters and the AIF directly from contrast-time curves, without needing explicit AIF measurement. By tailoring a neural network to individual patients, I can achieve more accurate and reliable results, optimizing the process beyond traditional methods. This project is ongoing.</p>
+    <div class="center-gif">
+        <img src="assets/aif1.jpg" alt="A GIF Image" width=500">
+    </div>
     <h2>Estimating PK Parameters in DCE-MRI Without an AIF</h2>
 
 <p>
@@ -163,6 +166,18 @@ C_t(t) = v_p C_p(t) + K^{\text{trans}} \int_0^t C_p(\tau) e^{-k_{ep}(t-\tau)} d\
     <li><strong>Multiple Result Selection:</strong> The network is designed to produce multiple results, allowing for the selection of the best-fitting AIF/PK parameter pairs, rather than relying on a single result. This enhances the robustness and reliability of the predictions.</li>
     <li><strong>Enhanced Clinical Utility:</strong> This patient-specific adaptation not only allows for more precise estimates but also enhances the clinical utility of the model. By directly estimating the AIF and PK parameters from measured contrast-time curves without the need for explicit image reconstruction, this method streamlines the DCE-MRI analysis process, making it faster and more robust to the specific challenges associated with AIF measurement.</li>
 </ul>
+    <div class="center-gif">
+        <img src="assets/aif1.jpg" alt="A GIF Image" width=500">
+    </div>
+    <p>This figure shows the AIF produced by the network after the initail joint training. While the AIF is a bit noisy, it is accurately reconstructed by the network.</p>
+    <div class="center-gif">
+        <img src="assets/aif2.jpg" alt="A GIF Image" width=500">
+    </div>
+
+    <p>Here, the AIF produced by the network after advanced training is shown. The output is smoother than in the previous figure, likely due to the averaging process; however, the accuracy of the reconstructed AIF is not as high. I am currently adjusting the hyperparameters to improve the results.</p>
+    <h2>Future Research</h2>
+
+<p>In future work, instead of relying on averaging, I plan to explore an approach where multiple runs of the network are performed, and the AIF and PK parameter combination with the best loss is selected for backpropagation. This method could achieve similar benefits to the current averaging technique while potentially improving the accuracy and robustness of the final model.</p>
 
     </d>
 
