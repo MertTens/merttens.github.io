@@ -298,3 +298,51 @@ button {
   font-weight: bold; /* Bold text on hover */
 }
 
+/* ─── Crossword Styles ───────────────────────────────────────────────────── */
+#crossword table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+#crossword td {
+  width: 2.2em;
+  height: 2.2em;
+  border: 1px solid #444;     /* cell border */
+  position: relative;
+  background: #fff;            /* cell fill */
+}
+#crossword td.black {
+  background: #444;            /* black squares */
+}
+#crossword td input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  background: transparent;
+  color: #222;                 /* letter color */
+}
+#crossword td.cwd-tile-correct {
+  background: #cfc !important; /* correct = light green */
+}
+#crossword td.cwd-tile-incorrect {
+  border-color: #e66 !important; /* incorrect = red border */
+}
+/* clue numbering (if plugin injects them) */
+#crossword td .clue-number {
+  position: absolute;
+  top: 2px; left: 2px;
+  font-size: 0.6em;
+  color: #666;
+}
+
+/* ─── Override Your Global Rules ───────────────────────────────────────── */
+#crossword,
+#crossword * {
+  color: inherit !important;
+}
+/* If you have a global button margin, undo it for this section */
+#crossword-container button {
+  margin: 0 !important;
+}
