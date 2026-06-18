@@ -204,21 +204,24 @@
     draw();
 
     // ── audio ─────────────────────────────────────────────────────────────────
-    var audio      = document.getElementById('bgAudio');
-    var audioReady = false;
+    var audio = document.getElementById('bgAudio');
 
-    function tryPlay() {
-      if (!audioReady) {
-        audio.volume = 0.35;
-        audio.play().then(function () { audioReady = true; }).catch(function () {});
-      }
+    function startAudio() {
+      audio.volume = 0.35;
+      audio.play().catch(function () {});
     }
-    tryPlay();
+
+    // Attempt autoplay on load (silently fails until user gesture)
+    startAudio();
+    // pointerdown fires before click and is a valid user-activation gesture —
+    // this gets audio going on the very first touch/click
+    window.addEventListener('pointerdown', startAudio, { once: true });
 
     // ── escape mechanism ──────────────────────────────────────────────────────
-    var clickCount = 0;
-    var hint       = document.getElementById('hint');
-    var hintTimer  = null;
+    var clickCount    = 0;
+    var hint          = document.getElementById('hint');
+    var hintTimer     = null;
+    var lastTouchTime = 0;
 
     function escape() { window.location.href = 'secrethome.html'; }
 
@@ -228,11 +231,24 @@
       hintTimer = setTimeout(function () { hint.classList.remove('visible'); }, 1800);
     }
 
-    window.addEventListener('click', function () {
-      tryPlay();
+    function countTap() {
       clickCount++;
       showHint();
       if (clickCount >= 10) escape();
+    }
+
+    // touchend counts taps on mobile
+    window.addEventListener('touchend', function () {
+      lastTouchTime = Date.now();
+      startAudio();
+      countTap();
+    });
+
+    // click handles desktop; skip if this click was synthesised from a touch
+    window.addEventListener('click', function () {
+      if (Date.now() - lastTouchTime < 500) return;
+      startAudio();
+      countTap();
     });
 
     var typedBuffer = '';
