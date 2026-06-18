@@ -1,1 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stony</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    body {
+      background: #000;
+      overflow: hidden;
+      cursor: none;
+      font-family: monospace;
+    }
+
+    /* custom cursor dot */
+    #cursor {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      background: #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      translate: -50% -50%;
+      mix-blend-mode: difference;
+      z-index: 9999;
+    }
+
+    canvas { display: block; }
+
+    /* tiny click-counter hint that appears only briefly */
+    #hint {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      translate: -50% 0;
+      color: #333;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    #hint.visible { opacity: 1; }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="cursor"></div>
+  <div id="hint">· · ·</div>
+
+  <audio id="bgAudio" loop>
+    <source src="mp3/steeldummaster.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+  (function () {
+    // ── canvas setup ──────────────────────────────────────────────────────────
+    var canvas = document.getElementById('c');
+    var ctx    = canvas.getContext('2d');
+    var W, H;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // ── mouse / touch tracking ────────────────────────────────────────────────
+    var mouse  = { x: -9999, y: -9999 };
+    var cursorEl = document.getElementById('cursor');
+
+    window.addEventListener('mousemove', function (e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      cursorEl.style.left = e.clientX + 'px';
+      cursorEl.style.top  = e.clientY + 'px';
+    });
+    window.addEventListener('mouseleave', function () {
+      mouse.x = mouse.y = -9999;
+    });
+
+    // ── physics particles ─────────────────────────────────────────────────────
+    var NUM_PARTICLES  = 120;
+    var REPEL_RADIUS   = 100;
+    var REPEL_STRENGTH = 0.55;
+    var MAX_SPEED      = 3.5;
+    var particles      = [];
+
+    function Particle() { this.reset(); }
+    Particle.prototype.reset = function () {
+      this.x  = Math.random() * W;
+      this.y  = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 1.2;
+      this.vy = (Math.random() - 0.5) * 1.2;
+      this.r  = 1.5 + Math.random() * 2;
+      var v = Math.floor(40 + Math.random() * 120);
+      this.color = 'rgb(' + v + ',' + v + ',' + v + ')';
+    };
+
+    for (var i = 0; i < NUM_PARTICLES; i++) particles.push(new Particle());
+
+    var LINK_DIST = 120;
+
+    // ── floating equations ────────────────────────────────────────────────────
+    var EQUATIONS = [
+      'ψ(k) = ∫ ρ(r) e^{-i2πk·r} dr',
+      'x_{t+1} = F x_t',
+      'Ĉ₀ = X X^H',
+      'G = I₁',
+      '‖Hx - y‖₂² + λ‖Φ(x)‖₁',
+      'x̂_H = U_b Â_H',
+      'SNR ∝ B₀^{7/4}',
+      'k_ep = K^{trans} / v_e',
+    ];
+
+    var floaters = EQUATIONS.map(function (eq) {
+      return {
+        text: eq,
+        x:    Math.random() * W,
+        y:    Math.random() * H,
+        vx:   (Math.random() - 0.5) * 0.25,
+        vy:   (Math.random() - 0.5) * 0.25,
+        alpha: 0.04 + Math.random() * 0.08,
+      };
+    });
+
+    // ── render loop ───────────────────────────────────────────────────────────
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // floating equations
+      ctx.font = '11px monospace';
+      floaters.forEach(function (f) {
+        f.x += f.vx; f.y += f.vy;
+        if (f.x < 0 || f.x > W) f.vx *= -1;
+        if (f.y < 0 || f.y > H) f.vy *= -1;
+        ctx.globalAlpha = f.alpha;
+        ctx.fillStyle   = '#D3D3D3';
+        ctx.fillText(f.text, f.x, f.y);
+      });
+      ctx.globalAlpha = 1;
+
+      // move particles with mouse repulsion
+      particles.forEach(function (p) {
+        var dx = p.x - mouse.x;
+        var dy = p.y - mouse.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < REPEL_RADIUS && dist > 0) {
+          var force = (1 - dist / REPEL_RADIUS) * REPEL_STRENGTH;
+          p.vx += (dx / dist) * force;
+          p.vy += (dy / dist) * force;
+        }
+
+        // speed cap
+        var speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+        if (speed > MAX_SPEED) {
+          p.vx = (p.vx / speed) * MAX_SPEED;
+          p.vy = (p.vy / speed) * MAX_SPEED;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // bounce walls with slight damping
+        if (p.x < 0)  { p.x = 0;  p.vx = Math.abs(p.vx) * 0.9; }
+        if (p.x > W)  { p.x = W;  p.vx = -Math.abs(p.vx) * 0.9; }
+        if (p.y < 0)  { p.y = 0;  p.vy = Math.abs(p.vy) * 0.9; }
+        if (p.y > H)  { p.y = H;  p.vy = -Math.abs(p.vy) * 0.9; }
+      });
+
+      // draw connections
+      for (var a = 0; a < particles.length; a++) {
+        for (var b = a + 1; b < particles.length; b++) {
+          var pa = particles[a], pb = particles[b];
+          var ddx = pa.x - pb.x, ddy = pa.y - pb.y;
+          var d   = Math.sqrt(ddx * ddx + ddy * ddy);
+          if (d < LINK_DIST) {
+            ctx.globalAlpha = (1 - d / LINK_DIST) * 0.18;
+            ctx.strokeStyle = '#444';
+            ctx.lineWidth   = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(pa.x, pa.y);
+            ctx.lineTo(pb.x, pb.y);
+            ctx.stroke();
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      // draw particles
+      particles.forEach(function (p) {
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // ── audio ─────────────────────────────────────────────────────────────────
+    var audio      = document.getElementById('bgAudio');
+    var audioReady = false;
+
+    function tryPlay() {
+      if (!audioReady) {
+        audio.volume = 0.35;
+        audio.play().then(function () { audioReady = true; }).catch(function () {});
+      }
+    }
+    tryPlay();
+
+    // ── escape mechanism ──────────────────────────────────────────────────────
+    var clickCount = 0;
+    var hint       = document.getElementById('hint');
+    var hintTimer  = null;
+
+    function escape() { window.location.href = 'secrethome.html'; }
+
+    function showHint() {
+      clearTimeout(hintTimer);
+      hint.classList.add('visible');
+      hintTimer = setTimeout(function () { hint.classList.remove('visible'); }, 1800);
+    }
+
+    window.addEventListener('click', function () {
+      tryPlay();
+      clickCount++;
+      showHint();
+      if (clickCount >= 10) escape();
+    });
+
+    var typedBuffer = '';
+    window.addEventListener('keydown', function (e) {
+      if (e.key.length === 1) {
+        e.preventDefault();
+        typedBuffer += e.key.toLowerCase();
+        if (typedBuffer.length > 5) typedBuffer = typedBuffer.slice(-5);
+        if (typedBuffer === 'meggy') escape();
+      } else {
+        typedBuffer = '';
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

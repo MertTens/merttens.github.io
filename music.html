@@ -1,185 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stony</title>
-
-    <!-- Link to Bootstrap CSS (CDN) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
-
-    <!-- Link to your custom CSS file -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music — Alex Mertens</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header with custom JPEG image -->
-    <header>
-        <!-- You can add content or text here if needed -->
-        <div class="container">
-            <div class="row">
-                <div class="col text-center">
-                    <img src="assets/banner.png" class="mx-auto img-fluid">
-                </div>
-            </div>
-                <div class="col-auto text-center">
-                    <a href ="index.html" class="btn btn-link my-button">Home</a>
-                    <a href ="research.html" class="btn btn-link my-button">Research</a>
-                    <a href ="projects.html" class="btn btn-link my-button">Projects</a>
-                    <a href ="music.html" class="btn btn-link my-button">Music</a>
-                    <a href ="news.html" class="btn btn-link my-button">News</a>
-                </div>
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <img src="assets/banner.png" class="img-fluid" alt="Alex Mertens — site banner">
         </div>
-    </header> 
-
-
-    <div class="music-text">
-        <p>I like to make music. I've got a lot of instruments by now and I try to use all of them. My favorite is either the theremin or the djembe. Hover over or click on the songs below to hear them.</p>
+      </div>
+      <nav aria-label="Main navigation" class="text-center">
+        <a href="secrethome.html"    class="btn btn-link my-button">Home</a>
+        <a href="research.html" class="btn btn-link my-button">Research</a>
+        <a href="projects.html" class="btn btn-link my-button">Projects</a>
+        <a href="music.html"    class="btn btn-link my-button" aria-current="page">Music</a>
+        <a href="news.html"     class="btn btn-link my-button">News</a>
+      </nav>
     </div>
+  </header>
 
+  <main>
+    <p class="music-text">I like to make music. I've got a lot of instruments by now and I try to
+       use all of them. My favorite is either the theremin or the djembe. Hover over or click on the
+       songs below to hear them.</p>
 
-
-    <div class="song-grid">
-    <!-- Box 1 -->
-    <div class="box">
+    <section class="song-grid" aria-label="Song list">
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/steeldummaster">steeldum</button></li>
-            <li><button class="play-button" data-song="mp3/holdontolegmaster">holdontoleg</button></li>
+          <li><button class="play-button" data-song="mp3/steeldummaster"   aria-label="Play steeldum">steeldum</button></li>
+          <li><button class="play-button" data-song="mp3/holdontolegmaster" aria-label="Play holdontoleg">holdontoleg</button></li>
         </ul>
-    </div>
-
-    <!-- Box 2 -->
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/b">b</button></li>
+          <li><button class="play-button" data-song="mp3/b" aria-label="Play b">b</button></li>
         </ul>
-    </div>
-
-    <!-- Box 3 -->
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/a">a</button></li>
+          <li><button class="play-button" data-song="mp3/a" aria-label="Play a">a</button></li>
         </ul>
-    </div>
-
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/summer">music about summer</button></li>
-            <li><button class="play-button" data-song="mp3/laterinsummer">music about later in summer</button></li>
+          <li><button class="play-button" data-song="mp3/summer"      aria-label="Play music about summer">music about summer</button></li>
+          <li><button class="play-button" data-song="mp3/laterinsummer" aria-label="Play music about later in summer">music about later in summer</button></li>
         </ul>
-    </div>
-    
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/wedaug">Wednesday, August 28</button></li>
+          <li><button class="play-button" data-song="mp3/wedaug" aria-label="Play Wednesday August 28">Wednesday, August 28</button></li>
         </ul>
-    </div>
-
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/howorwhy">How or Why</button></li>
-            <li><button class="play-button" data-song="mp3/goodboy">Good Boy</button></li>
-            <li><button class="play-button" data-song="mp3/beatroot">BeatRoot</button></li>
-            <li><button class="play-button" data-song="mp3/window">Window</button></li>
-            <li><button class="play-button" data-song="mp3/message">Message</button></li>
+          <li><button class="play-button" data-song="mp3/howorwhy" aria-label="Play How or Why">How or Why</button></li>
+          <li><button class="play-button" data-song="mp3/goodboy"  aria-label="Play Good Boy">Good Boy</button></li>
+          <li><button class="play-button" data-song="mp3/beatroot" aria-label="Play BeatRoot">BeatRoot</button></li>
+          <li><button class="play-button" data-song="mp3/window"   aria-label="Play Window">Window</button></li>
+          <li><button class="play-button" data-song="mp3/message"  aria-label="Play Message">Message</button></li>
         </ul>
-    </div>
-
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/sunsept">Sunday, September 15</button></li>
+          <li><button class="play-button" data-song="mp3/sunsept" aria-label="Play Sunday September 15">Sunday, September 15</button></li>
         </ul>
-    </div>
-
-
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/reasons">Reasons</button></li>
-            <li><button class="play-button" data-song="mp3/ohlook">Oh Look</button></li>
-            <li><button class="play-button" data-song="mp3/outside">Outside</button></li>
+          <li><button class="play-button" data-song="mp3/reasons" aria-label="Play Reasons">Reasons</button></li>
+          <li><button class="play-button" data-song="mp3/ohlook"  aria-label="Play Oh Look">Oh Look</button></li>
+          <li><button class="play-button" data-song="mp3/outside" aria-label="Play Outside">Outside</button></li>
         </ul>
-    </div>
-
-
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/drums">I bought drums</button></li>
-            <li><button class="play-button" data-song="mp3/afterhours">After Hours</button></li>
-            <li><button class="play-button" data-song="mp3/lookatme">Did you look at me</button></li>
+          <li><button class="play-button" data-song="mp3/drums"      aria-label="Play I bought drums">I bought drums</button></li>
+          <li><button class="play-button" data-song="mp3/afterhours" aria-label="Play After Hours">After Hours</button></li>
+          <li><button class="play-button" data-song="mp3/lookatme"   aria-label="Play Did you look at me">Did you look at me</button></li>
         </ul>
-    </div>
-
-
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/wall">Wall</button></li>
-            <li><button class="play-button" data-song="mp3/walking">Walking</button></li>
-            <li><button class="play-button" data-song="mp3/comeon">Oh Come On</button></li>
+          <li><button class="play-button" data-song="mp3/wall"   aria-label="Play Wall">Wall</button></li>
+          <li><button class="play-button" data-song="mp3/walking" aria-label="Play Walking">Walking</button></li>
+          <li><button class="play-button" data-song="mp3/comeon" aria-label="Play Oh Come On">Oh Come On</button></li>
         </ul>
-    </div>
-
-
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/stayawake">Stay Awake</button></li>
-            <li><button class="play-button" data-song="mp3/vanish">Vanish</button></li>
+          <li><button class="play-button" data-song="mp3/stayawake" aria-label="Play Stay Awake">Stay Awake</button></li>
+          <li><button class="play-button" data-song="mp3/vanish"    aria-label="Play Vanish">Vanish</button></li>
         </ul>
-    </div>
-
-    
-    <div class="box">
+      </div>
+      <div class="box">
         <ul>
-            <li><button class="play-button" data-song="mp3/experimeneta">experimeneta</button></li>
-            <li><button class="play-button" data-song="mp3/dont">Don't let them in</button></li>
-            <li><button class="play-button" data-song="mp3/dress">Dress like you were 22</button></li>
-            <li><button class="play-button" data-song="mp3/breakfree">I want to break free</button></li>
-            <li><button class="play-button" data-song="mp3/pretty">pretty</button></li>
+          <li><button class="play-button" data-song="mp3/experimeneta" aria-label="Play experimeneta">experimeneta</button></li>
+          <li><button class="play-button" data-song="mp3/dont"         aria-label="Play Don't let them in">Don't let them in</button></li>
+          <li><button class="play-button" data-song="mp3/dress"        aria-label="Play Dress like you were 22">Dress like you were 22</button></li>
+          <li><button class="play-button" data-song="mp3/breakfree"    aria-label="Play I want to break free">I want to break free</button></li>
+          <li><button class="play-button" data-song="mp3/pretty"       aria-label="Play pretty">pretty</button></li>
         </ul>
-    </div>
+      </div>
+    </section>
 
-    <!-- Add more boxes as needed -->
-    </div>
-
-
-    <audio id="audioPlayer">
-        <!-- Include audio sources for your songs -->
-        <source src="mp3/steeldummaster.mp3" type="audio/mpeg">
-        <source src="mp3/holdontolegmaster.mp3" type="audio/mpeg">
-        <source src="mp3/a.mp3" type="audio/mpeg">
-        <source src="mp3/b.mp3" type="audio/mpeg">
-        <source src="mp3/summer.mp3" type="audio/mpeg">
-        <source src="mp3/laterinsummer.mp3" type="audio/mpeg">
-        <source src="mp3/wedaug.mp3" type="audio/mpeg">
-        <source src="mp3/howorwhy.mp3" type="audio/mpeg">
-        <source src="mp3/goodboy.mp3" type="audio/mpeg">
-        <source src="mp3/beatroot.mp3" type="audio/mpeg">
-        <source src="mp3/window.mp3" type="audio/mpeg">
-        <source src="mp3/message.mp3" type="audio/mpeg">
-        <source src="mp3/sunsept.mp3" type="audio/mpeg">
-        <source src="mp3/outside.mp3" type="audio/mpeg">
-        <source src="mp3/reasons.mp3" type="audio/mpeg">
-        <source src="mp3/ohlook.mp3" type="audio/mpeg">
-        <source src="mp3/drums.mp3" type="audio/mpeg">
-        <source src="mp3/afterhours.mp3" type="audio/mpeg">
-        <source src="mp3/lookatme.mp3" type="audio/mpeg">
-        <source src="mp3/wall.mp3" type="audio/mpeg">
-        <source src="mp3/walking.mp3" type="audio/mpeg">
-        <source src="mp3/comeon.mp3" type="audio/mpeg">
-        <source src="mp3/stayawake.mp3" type="audio/mpeg">
-        <source src="mp3/vanish.mp3" type="audio/mpeg">
-        <source src="mp3/experimeneta.mp3" type="audio/mpeg">
-        <source src="mp3/dont.mp3" type="audio/mpeg">
-        <source src="mp3/dress.mp3" type="audio/mpeg">
-        <source src="mp3/breakfree.mp3" type="audio/mpeg">
-        <source src="mp3/pretty.mp3" type="audio/mpeg">
+    <audio id="audioPlayer" aria-hidden="true">
+      <source src="mp3/steeldummaster.mp3"   type="audio/mpeg">
+      <source src="mp3/holdontolegmaster.mp3" type="audio/mpeg">
+      <source src="mp3/a.mp3"                type="audio/mpeg">
+      <source src="mp3/b.mp3"                type="audio/mpeg">
+      <source src="mp3/summer.mp3"           type="audio/mpeg">
+      <source src="mp3/laterinsummer.mp3"    type="audio/mpeg">
+      <source src="mp3/wedaug.mp3"           type="audio/mpeg">
+      <source src="mp3/howorwhy.mp3"         type="audio/mpeg">
+      <source src="mp3/goodboy.mp3"          type="audio/mpeg">
+      <source src="mp3/beatroot.mp3"         type="audio/mpeg">
+      <source src="mp3/window.mp3"           type="audio/mpeg">
+      <source src="mp3/message.mp3"          type="audio/mpeg">
+      <source src="mp3/sunsept.mp3"          type="audio/mpeg">
+      <source src="mp3/outside.mp3"          type="audio/mpeg">
+      <source src="mp3/reasons.mp3"          type="audio/mpeg">
+      <source src="mp3/ohlook.mp3"           type="audio/mpeg">
+      <source src="mp3/drums.mp3"            type="audio/mpeg">
+      <source src="mp3/afterhours.mp3"       type="audio/mpeg">
+      <source src="mp3/lookatme.mp3"         type="audio/mpeg">
+      <source src="mp3/wall.mp3"             type="audio/mpeg">
+      <source src="mp3/walking.mp3"          type="audio/mpeg">
+      <source src="mp3/comeon.mp3"           type="audio/mpeg">
+      <source src="mp3/stayawake.mp3"        type="audio/mpeg">
+      <source src="mp3/vanish.mp3"           type="audio/mpeg">
+      <source src="mp3/experimeneta.mp3"     type="audio/mpeg">
+      <source src="mp3/dont.mp3"             type="audio/mpeg">
+      <source src="mp3/dress.mp3"            type="audio/mpeg">
+      <source src="mp3/breakfree.mp3"        type="audio/mpeg">
+      <source src="mp3/pretty.mp3"           type="audio/mpeg">
     </audio>
+  </main>
 
-
-
-    <!-- Link to Bootstrap JavaScript (CDN), if needed -->
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- Link to Bootstrap JavaScript (CDN), if needed -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
-

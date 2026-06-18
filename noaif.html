@@ -1,189 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stony</title>
-    <script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
-
-    <!-- Link to Bootstrap CSS (CDN) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
-
-    <!-- Link to your custom CSS file -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCE-MRI Without an AIF — Alex Mertens</title>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header with custom JPEG image -->
-    <header>
-        <!-- You can add content or text here if needed -->
-        <div class="container">
-            <div class="row">
-                <div class="col text-center">
-                    <img src="assets/banner.png" class="mx-auto img-fluid">
-                </div>
-            </div>
-                <div class="col-auto text-center">
-                    <a href ="index.html" class="btn btn-link my-button">Home</a>
-                    <a href ="research.html" class="btn btn-link my-button">Research</a>
-                    <a href ="projects.html" class="btn btn-link my-button">Projects</a>
-                    <a href ="music.html" class="btn btn-link my-button">Music</a>
-                    <a href ="news.html" class="btn btn-link my-button">News</a>
-                </div>
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <img src="assets/banner.png" class="img-fluid" alt="Alex Mertens — site banner">
         </div>
-    </header> 
-
-    <div class="menu-container">
-        <div class="menu-item">
-            <a href="thermometry.html">
-                <img src="assets/tspars.png" alt="T SPARS MRI">
-                <p>T SPARS</p>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a href="spars.html">
-                <img src="assets/spars.png" alt="SPARS MRI">
-                <p>SPARS</p>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a href="cine.html">
-                <img src="assets/cine.png" alt="Project 2">
-                <p>Linear Cardiac<br>Model</p>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a href="noaif.html">
-                <img src="assets/noaif.png" alt="AIF-FREE DCE MRI">
-                <p>DCE-MRI Without<br>an AIF</p>
-            </a>
-        </div>
-        <!-- Add more grid items as needed -->
+      </div>
+      <nav aria-label="Main navigation" class="text-center">
+        <a href="secrethome.html"    class="btn btn-link my-button">Home</a>
+        <a href="research.html" class="btn btn-link my-button" aria-current="page">Research</a>
+        <a href="projects.html" class="btn btn-link my-button">Projects</a>
+        <a href="music.html"    class="btn btn-link my-button">Music</a>
+        <a href="news.html"     class="btn btn-link my-button">News</a>
+      </nav>
     </div>
-    <!-- Rest of your content goes here -->
-    <div class="research-text">
-    <h2>Quick Summary</h2>
-    <p>I developed a novel machine learning approach for DCE-MRI to estimate PK parameters and the AIF directly from contrast-time curves, without needing explicit AIF measurement. By tailoring a neural network to individual patients, I can achieve more accurate and reliable results, optimizing the process beyond traditional methods. This project is ongoing.</p>
-    <div class="center-gif">
-        <img src="assets/aif1.jpg" alt="A GIF Image" width=500">
-    </div>
-    <h2>Estimating PK Parameters in DCE-MRI Without an AIF</h2>
+  </header>
 
-<p>
-Dynamic Contrast-Enhanced MRI (DCE-MRI) is a powerful tool for analyzing microvascular function and diagnosing various conditions, including cancer. The estimation of pharmacokinetic (PK) parameters such as the volume transfer constant <i>K<sup>trans</sup></i>, the extracellular extravascular volume fraction (<i>v<sub>e</sub></i>), and the plasma volume (<i>v<sub>p</sub></i>) is crucial in this process. Traditionally, these parameters are derived using the Arterial Input Function (AIF), which represents the concentration of a contrast agent in the blood over time.
-</p>
+  <main>
+    <nav aria-label="Research projects" class="menu-container">
+      <div class="menu-item">
+        <a href="thermometry.html">
+          <img src="assets/tspars.png" alt="T-SPARS MRI thermometry">
+          <p>T SPARS</p>
+        </a>
+      </div>
+      <div class="menu-item">
+        <a href="spars.html">
+          <img src="assets/spars.png" alt="SPARS spatial-subspace DCE-MRI">
+          <p>SPARS</p>
+        </a>
+      </div>
+      <div class="menu-item">
+        <a href="cine.html">
+          <img src="assets/cine.png" alt="Linear cardiac signal model for CINE MRI">
+          <p>Linear Cardiac<br>Model</p>
+        </a>
+      </div>
+      <div class="menu-item">
+        <a href="noaif.html">
+          <img src="assets/noaif.png" alt="AIF-free DCE-MRI reconstruction">
+          <p>DCE-MRI Without<br>an AIF</p>
+        </a>
+      </div>
+    </nav>
 
-<h3>The Challenge with AIF</h3>
+    <article class="research-text">
+      <h2>Quick Summary</h2>
+      <p>I developed a novel machine learning approach for DCE-MRI to estimate PK parameters and
+         the AIF directly from contrast-time curves, without needing explicit AIF measurement. By
+         tailoring a neural network to individual patients, I can achieve more accurate and reliable
+         results, optimizing the process beyond traditional methods. This project is ongoing.</p>
+      <div class="center-gif">
+        <img src="assets/aif1.jpg" alt="AIF reconstructed by the network after initial joint training" width="500">
+      </div>
 
-<p>
-The accurate measurement of the AIF is challenging due to the need for high temporal resolution, potential errors from using alternative AIFs, and difficulties in capturing the true AIF that feeds the tissue of interest. These challenges often lead to inaccuracies in PK parameter estimation, which can compromise the clinical utility of DCE-MRI.
-</p>
+      <h2>Estimating PK Parameters in DCE-MRI Without an AIF</h2>
+      <p>Dynamic Contrast-Enhanced MRI (DCE-MRI) is a powerful tool for analyzing microvascular
+         function and diagnosing various conditions, including cancer. The estimation of
+         pharmacokinetic (PK) parameters such as the volume transfer constant <i>K<sup>trans</sup></i>,
+         the extracellular extravascular volume fraction (<i>v<sub>e</sub></i>), and the plasma
+         volume (<i>v<sub>p</sub></i>) is crucial in this process. Traditionally, these parameters
+         are derived using the Arterial Input Function (AIF), which represents the concentration of
+         a contrast agent in the blood over time.</p>
 
-<h3>AIF-Free Approaches</h3>
+      <h3>The Challenge with AIF</h3>
+      <p>The accurate measurement of the AIF is challenging due to the need for high temporal
+         resolution, potential errors from using alternative AIFs, and difficulties in capturing the
+         true AIF that feeds the tissue of interest. These challenges often lead to inaccuracies in
+         PK parameter estimation, which can compromise the clinical utility of DCE-MRI.</p>
 
-<p>
-To address these issues, various AIF-free techniques have been developed. These methods can be broadly categorized into unconstrained, constrained, and machine learning approaches:
-</p>
+      <h3>AIF-Free Approaches</h3>
+      <p>To address these issues, various AIF-free techniques have been developed. These methods
+         can be broadly categorized into unconstrained, constrained, and machine learning
+         approaches:</p>
+      <ul>
+        <li><strong>Unconstrained Methods:</strong> These do not assume any specific form of the
+            AIF, offering flexibility but often struggling with noise and non-convex optimization
+            problems. Notable examples include Iterative Quadratic Maximum-Likelihood (IQML) and
+            Eigenvector-Based Algorithm for Multichannel Blind Deconvolution (EVAM).</li>
+        <li><strong>Constrained Methods:</strong> These approaches impose a parameterized model on
+            the AIF, reducing the number of free parameters and enhancing robustness to noise.
+            Methods like Model-Based Blind Estimation and Model-Constrained Monte Carlo have shown
+            promise by assuming that the AIF can be represented by a combination of functions, such
+            as gamma functions and sigmoids. In both constrained and unconstrained approaches,
+            parameter estimation is typically performed using descent methods, where the algorithm
+            iteratively adjusts the parameters to minimize the difference between the measured and
+            predicted data.</li>
+        <li><strong>Machine Learning (ML) Approaches:</strong> These methods leverage the power of
+            machine learning to estimate PK parameters directly from the DCE-MRI data, bypassing
+            the need for an explicit AIF. In these approaches, a neural network or other ML model
+            is trained on a large dataset of DCE-MRI images, where the AIF and PK parameters are
+            either known or simulated. The model learns to map the input DCE-MRI time series to the
+            desired PK parameter maps. This can be done with either fully sampled or undersampled
+            data.
+          <ul>
+            <li><strong>Example 1:</strong> A convolutional neural network (CNN) is trained to take
+                a sequence of DCE-MRI images as input and directly output maps of
+                <i>K<sup>trans</sup></i>, <i>v<sub>e</sub></i>, and <i>v<sub>p</sub></i> without
+                requiring an AIF. The network is trained on a large dataset where the ground truth
+                PK parameter maps are known, enabling it to learn the complex relationships between
+                the DCE-MRI signal and the PK parameters.</li>
+            <li><strong>Example 2:</strong> An ML model is trained on undersampled DCE-MRI data,
+                where the model not only estimates the PK parameters but also performs implicit
+                reconstruction of the images. This approach is particularly useful in accelerating
+                the MRI acquisition process while maintaining high accuracy in PK parameter
+                estimation.</li>
+          </ul>
+        </li>
+      </ul>
 
-<ul>
-    <li><strong>Unconstrained Methods:</strong> These do not assume any specific form of the AIF, offering flexibility but often struggling with noise and non-convex optimization problems. Notable examples include Iterative Quadratic Maximum-Likelihood (IQML) and Eigenvector-Based Algorithm for Multichannel Blind Deconvolution (EVAM).</li>
-    <li><strong>Constrained Methods:</strong> These approaches impose a parameterized model on the AIF, reducing the number of free parameters and enhancing robustness to noise. Methods like Model-Based Blind Estimation and Model-Constrained Monte Carlo have shown promise by assuming that the AIF can be represented by a combination of functions, such as gamma functions and sigmoids. In both constrained and unconstrained approaches, parameter estimation is typically performed using descent methods, where the algorithm iteratively adjusts the parameters to minimize the difference between the measured and predicted data.</li>
-    <li><strong>Machine Learning (ML) Approaches:</strong> These methods leverage the power of machine learning to estimate PK parameters directly from the DCE-MRI data, bypassing the need for an explicit AIF. In these approaches, a neural network or other ML model is trained on a large dataset of DCE-MRI images, where the AIF and PK parameters are either known or simulated. The model learns to map the input DCE-MRI time series to the desired PK parameter maps. This can be done with either fully sampled or undersampled data.
-        <ul>
-            <li><strong>Example 1:</strong> A convolutional neural network (CNN) is trained to take a sequence of DCE-MRI images as input and directly output maps of <i>K<sup>trans</sup></i>, <i>v<sub>e</sub></i>, and <i>v<sub>p</sub></i> without requiring an AIF. The network is trained on a large dataset where the ground truth PK parameter maps are known, enabling it to learn the complex relationships between the DCE-MRI signal and the PK parameters.</li>
-            <li><strong>Example 2:</strong> An ML model is trained on undersampled DCE-MRI data, where the model not only estimates the PK parameters but also performs implicit reconstruction of the images. This approach is particularly useful in accelerating the MRI acquisition process while maintaining high accuracy in PK parameter estimation.</li>
-        </ul>
-    </li>
-</ul>
+      <h3>Toft's Model</h3>
+      <p>A widely used model in DCE-MRI for estimating PK parameters is the Toft's model. This
+         model describes the transfer of contrast agent between blood plasma and tissue and is
+         expressed as:</p>
+      \[
+        C_t(t) = K^{\text{trans}} \int_0^t C_p(\tau) e^{-k_{ep}(t-\tau)} d\tau
+      \]
+      <p>where:</p>
+      <ul>
+        <li>\(C_t(t)\) is the concentration of the contrast agent in the tissue at time \(t\),</li>
+        <li>\(C_p(t)\) is the concentration of the contrast agent in the plasma (AIF),</li>
+        <li>\(K^{\text{trans}}\) is the volume transfer constant between plasma and the
+            extravascular extracellular space,</li>
+        <li>\(k_{ep}\) is the rate constant between the extracellular extravascular space and
+            plasma.</li>
+      </ul>
+      <p>An extended version of the Toft's model also includes the plasma volume fraction
+         (\(v_p\)):
+        \[
+          C_t(t) = v_p C_p(t) + K^{\text{trans}} \int_0^t C_p(\tau) e^{-k_{ep}(t-\tau)} d\tau
+        \]
+      </p>
 
-<h3>Toft’s Model</h3>
+      <h2>My Approach</h2>
+      <p>In my research, I employ a machine learning approach to estimate PK parameters and the
+         Arterial Input Function (AIF) directly from measured contrast-time curves. This approach
+         involves two neural networks: one dedicated to learning the AIF and another to learning
+         the PK parameters.</p>
 
-<p>
-A widely used model in DCE-MRI for estimating PK parameters is the Toft’s model. This model describes the transfer of contrast agent between blood plasma and tissue and is expressed as:
-</p>
+      <h3>Noteworthy Limitation</h3>
+      <p>A key limitation in this process is that the AIF, Ktrans, and vp (if using the extended
+         Tofts model) can only be learned within the same scaling constant. While Kep can be
+         learned exactly, mathematically, it's impossible to determine this constant without
+         additional information, such as periodic blood sampling during the imaging process.</p>
 
-<p>
-\[
-C_t(t) = K^{\text{trans}} \int_0^t C_p(\tau) e^{-k_{ep}(t-\tau)} d\tau
-\]
-</p>
+      <h3>Network Structure</h3>
+      <p>The input to both networks is a group of four measured contrast-time curves. The AIF
+         network outputs the AIF it believes generated these curves, while the PK network outputs
+         the Ktrans and Kep associated with the first of the four curves.</p>
 
-<p>
-where:
-</p>
-
-<ul>
-    <li>\(C_t(t)\) is the concentration of the contrast agent in the tissue at time \(t\),</li>
-    <li>\(C_p(t)\) is the concentration of the contrast agent in the plasma (AIF),</li>
-    <li>\(K^{\text{trans}}\) is the volume transfer constant between plasma and the extravascular extracellular space,</li>
-    <li>\(k_{ep}\) is the rate constant between the extracellular extravascular space and plasma.</li>
-</ul>
-
-<p>
-An extended version of the Toft’s model also includes the plasma volume fraction (\(v_p\)):
-</p>
-
-<p>
-\[
-C_t(t) = v_p C_p(t) + K^{\text{trans}} \int_0^t C_p(\tau) e^{-k_{ep}(t-\tau)} d\tau
-\]
-</p>
-
-<h2>My Approach</h2>
-
-<p>In my research, I employ a machine learning approach to estimate PK parameters and the Arterial Input Function (AIF) directly from measured contrast-time curves. This approach involves two neural networks: one dedicated to learning the AIF and another to learning the PK parameters.</p>
-
-<h3>Noteworthy Limitation</h3>
-
-<p>A key limitation in this process is that the AIF, Ktrans, and vp (if using the extended Tofts model) can only be learned within the same scaling constant. While Kep can be learned exactly, mathematically, it’s impossible to determine this constant without additional information, such as periodic blood sampling during the imaging process.</p>
-
-<h3>Network Structure</h3>
-
-<p>The input to both networks is a group of four measured contrast-time curves. The AIF network outputs the AIF it believes generated these curves, while the PK network outputs the Ktrans and Kep associated with the first of the four curves.</p>
-
-<h3>Step-by-Step Approach</h3>
-
-<ol>
-    <li><strong>Initial Training:</strong> The AIF network is first trained by having it learn the population average AIF.</li>
-    <li><strong>Joint Training:</strong> Both networks are then trained together. The loss function is computed by using the network outputs and the Tofts model to determine what the input Ct curve would have been, followed by calculating the Mean Squared Error (MSE) between the actual input Ct curve and the back-calculated one.</li>
-    <li><strong>Advanced Training:</strong> The networks undergo further training with a technique that involves averaging predictions across multiple runs. This process is structured as follows:
-        <ul>
+      <h3>Step-by-Step Approach</h3>
+      <ol>
+        <li><strong>Initial Training:</strong> The AIF network is first trained by having it learn
+            the population average AIF.</li>
+        <li><strong>Joint Training:</strong> Both networks are then trained together. The loss
+            function is computed by using the network outputs and the Tofts model to determine what
+            the input Ct curve would have been, followed by calculating the Mean Squared Error (MSE)
+            between the actual input Ct curve and the back-calculated one.</li>
+        <li><strong>Advanced Training:</strong> The networks undergo further training with a
+            technique that involves averaging predictions across multiple runs. This process is
+            structured as follows:
+          <ul>
             <li>The four inputs are used to generate predicted AIFs and PK parameters.</li>
-            <li>The last three inputs are then swapped out, and new predictions are made for the remaining input.</li>
-            <li>This is repeated multiple times, and the final PK prediction is the average of all predictions, training the network to be correct on average.</li>
-        </ul>
-    </li>
-    <li><strong>Final Use Case:</strong> The final trained network allows the user to perform similar swapping and select the AIF/PK parameter pairs that best fit the Tofts model from the multiple results produced.</li>
-</ol>
+            <li>The last three inputs are then swapped out, and new predictions are made for the
+                remaining input.</li>
+            <li>This is repeated multiple times, and the final PK prediction is the average of all
+                predictions, training the network to be correct on average.</li>
+          </ul>
+        </li>
+        <li><strong>Final Use Case:</strong> The final trained network allows the user to perform
+            similar swapping and select the AIF/PK parameter pairs that best fit the Tofts model
+            from the multiple results produced.</li>
+      </ol>
 
-<h3>Advantages of My Approach</h3>
+      <h3>Advantages of My Approach</h3>
+      <ul>
+        <li><strong>Patient-Specific Adaptation:</strong> By tailoring the model to individual
+            patients, I achieve more accurate and reliable estimates, optimizing the process beyond
+            traditional methods.</li>
+        <li><strong>Multiple Result Selection:</strong> The network is designed to produce multiple
+            results, allowing for the selection of the best-fitting AIF/PK parameter pairs, rather
+            than relying on a single result. This enhances the robustness and reliability of the
+            predictions.</li>
+        <li><strong>Enhanced Clinical Utility:</strong> This patient-specific adaptation not only
+            allows for more precise estimates but also enhances the clinical utility of the model.
+            By directly estimating the AIF and PK parameters from measured contrast-time curves
+            without the need for explicit image reconstruction, this method streamlines the DCE-MRI
+            analysis process, making it faster and more robust to the specific challenges associated
+            with AIF measurement.</li>
+      </ul>
 
-<p>This approach offers several advantages:</p>
+      <div class="center-gif">
+        <img src="assets/aif1.jpg" alt="AIF reconstructed by the network after initial joint training" width="500">
+      </div>
+      <p>This figure shows the AIF produced by the network after the initial joint training. While
+         the AIF is a bit noisy, it is accurately reconstructed by the network.</p>
 
-<ul>
-    <li><strong>Patient-Specific Adaptation:</strong> By tailoring the model to individual patients, I achieve more accurate and reliable estimates, optimizing the process beyond traditional methods.</li>
-    <li><strong>Multiple Result Selection:</strong> The network is designed to produce multiple results, allowing for the selection of the best-fitting AIF/PK parameter pairs, rather than relying on a single result. This enhances the robustness and reliability of the predictions.</li>
-    <li><strong>Enhanced Clinical Utility:</strong> This patient-specific adaptation not only allows for more precise estimates but also enhances the clinical utility of the model. By directly estimating the AIF and PK parameters from measured contrast-time curves without the need for explicit image reconstruction, this method streamlines the DCE-MRI analysis process, making it faster and more robust to the specific challenges associated with AIF measurement.</li>
-</ul>
-    <div class="center-gif">
-        <img src="assets/aif1.jpg" alt="A GIF Image" width=500">
-    </div>
-    <p>This figure shows the AIF produced by the network after the initail joint training. While the AIF is a bit noisy, it is accurately reconstructed by the network.</p>
-    <div class="center-gif">
-        <img src="assets/aif2.jpg" alt="A GIF Image" width=500">
-    </div>
+      <div class="center-gif">
+        <img src="assets/aif2.jpg" alt="AIF reconstructed by the network after advanced training" width="500">
+      </div>
+      <p>Here, the AIF produced by the network after advanced training is shown. The output is
+         smoother than in the previous figure, likely due to the averaging process; however, the
+         accuracy of the reconstructed AIF is not as high. I am currently adjusting the
+         hyperparameters to improve the results.</p>
 
-    <p>Here, the AIF produced by the network after advanced training is shown. The output is smoother than in the previous figure, likely due to the averaging process; however, the accuracy of the reconstructed AIF is not as high. I am currently adjusting the hyperparameters to improve the results.</p>
-    <h2>Future Research</h2>
+      <h2>Future Research</h2>
+      <p>In future work, instead of relying on averaging, I plan to explore an approach where
+         multiple runs of the network are performed, and the AIF and PK parameter combination with
+         the best loss is selected for backpropagation. This method could achieve similar benefits
+         to the current averaging technique while potentially improving the accuracy and robustness
+         of the final model.</p>
+    </article>
+  </main>
 
-<p>In future work, instead of relying on averaging, I plan to explore an approach where multiple runs of the network are performed, and the AIF and PK parameter combination with the best loss is selected for backpropagation. This method could achieve similar benefits to the current averaging technique while potentially improving the accuracy and robustness of the final model.</p>
-
-    </d>
-
-    <!-- Link to Bootstrap JavaScript (CDN), if needed -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- Link to Bootstrap JavaScript (CDN), if needed -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

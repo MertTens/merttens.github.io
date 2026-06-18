@@ -1,53 +1,42 @@
-// Get the audio element and create a variable to track the current song
-var audioPlayer = document.getElementById("audioPlayer");
-var currentSong = null;
+// Music player for music.html
+// Hover-to-preview: hovering a button plays the song; mouse-out pauses.
+// Click toggles play/pause so you can keep a song playing.
 
-// Get all the play buttons
-var playButtons = document.querySelectorAll(".play-button");
+(function () {
+  var player     = document.getElementById('audioPlayer');
+  var currentSrc = null;
 
-// Attach event listeners to each play button
-playButtons.forEach(function (button) {
-    button.addEventListener("mouseover", function () {
-        // When mouse hovers over the button, start playing the song
-        var songName = this.getAttribute("data-song");
-        playSong(songName);
-    });
-
-    button.addEventListener("click", function (event) {
-        // Prevent the default click behavior to avoid following a link
-        event.preventDefault();
-        
-        // When the button is clicked, play the song
-        togglePlayback();
-    });
-
-    button.addEventListener("mouseout", function () {
-        // When mouse moves away from the button, stop playing the song
-        if (!audioPlayer.paused && !audioPlayer.ended) {
-            audioPlayer.pause();
-            currentSong = null;
-        }
-    });
-});
-
-// Function to play a song
-function playSong(songName) {
-    // Check if the same song is already playing; if not, change the source and play
-    if (currentSong !== songName) {
-        var sourceElement = audioPlayer.querySelector('source[src="' + songName.toLowerCase() + '.mp3"]');
-        if (sourceElement) {
-            audioPlayer.src = sourceElement.src;
-            audioPlayer.play();
-            currentSong = songName;
-        }
+  function playSong(src) {
+    if (currentSrc !== src) {
+      player.src = src + '.mp3';
+      player.load();
+      currentSrc = src;
     }
-}
+    player.play().catch(function () {});
+  }
 
-// Function to toggle playback (play/pause)
-function togglePlayback() {
-    if (audioPlayer.paused || audioPlayer.ended) {
-        audioPlayer.play();
-    } else {
-        audioPlayer.pause();
-    }
-}
+  function pauseSong() {
+    if (!player.paused) player.pause();
+  }
+
+  document.querySelectorAll('.play-button').forEach(function (btn) {
+    var song = btn.getAttribute('data-song');
+
+    btn.addEventListener('mouseover', function () {
+      playSong(song);
+    });
+
+    btn.addEventListener('mouseout', function () {
+      pauseSong();
+      currentSrc = null;
+    });
+
+    btn.addEventListener('click', function () {
+      if (player.paused || player.ended) {
+        playSong(song);
+      } else {
+        pauseSong();
+      }
+    });
+  });
+})();

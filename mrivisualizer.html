@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stony</title>
-
-    <!-- Link to Bootstrap CSS (CDN) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
-
-    <!-- Link to your custom CSS file -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MRI Sampling Visualizer — Alex Mertens</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header with custom JPEG image -->
-    <header>
-        <!-- You can add content or text here if needed -->
-            <div class="row">
-                <div class="col text-center">
-                    <img src="assets/banner.png" class="mx-auto img-fluid">
-                </div>
-            </div>
-        <div class="container">
-                <div class="col-auto text-center">
-                    <a href ="index.html" class="btn btn-link my-button">Home</a>
-                    <a href ="research.html" class="btn btn-link my-button">Research</a>
-                    <a href ="projects.html" class="btn btn-link my-button">Projects</a>
-                    <a href ="music.html" class="btn btn-link my-button">Music</a>
-                    <a href ="news.html" class="btn btn-link my-button">News</a>
-                </div>
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <img src="assets/banner.png" class="img-fluid" alt="Alex Mertens — site banner">
         </div>
-    </header> 
+      </div>
+      <nav aria-label="Main navigation" class="text-center">
+        <a href="secrethome.html"    class="btn btn-link my-button">Home</a>
+        <a href="research.html" class="btn btn-link my-button">Research</a>
+        <a href="projects.html" class="btn btn-link my-button" aria-current="page">Projects</a>
+        <a href="music.html"    class="btn btn-link my-button">Music</a>
+        <a href="news.html"     class="btn btn-link my-button">News</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Rest of your content goes here -->
-    <div class="music-text">
-        <p>Oh no, you've become a sentient MRI machine. I guess the good thing is that you only have to worry about acquiring MRI images now though. But they don't really look like images to you... they're all in k-space. There's a patient in the machine right now and you have to acquire an image of their brain. Draw on the canvas on the left to pick up points in k-space. The image that the radiologist will see will appear on the right. Good luck.</p>
+  <main>
+    <p class="music-text">Oh no, you've become a sentient MRI machine. I guess the good thing is
+       that you only have to worry about acquiring MRI images now though. But they don't really look
+       like images to you… they're all in k-space. There's a patient in the machine right now and
+       you have to acquire an image of their body. Draw on the canvas on the left to pick up points
+       in k-space. The image that the radiologist will see will appear on the right. Good luck.</p>
+
+    <div role="status" id="visualizerStatus" class="status-message" aria-live="polite"></div>
+
+    <div class="canvas-container" id="canvasContainer" hidden>
+      <canvas id="doodleCanvas" aria-label="K-space drawing canvas — draw here to sample k-space"></canvas>
+      <canvas id="imageCanvas"  aria-label="Reconstructed MRI image"></canvas>
     </div>
 
-    <div class="canvas-container">
-        <canvas id="doodleCanvas"></canvas>
-        <canvas id="imageCanvas"></canvas>
-    </div>
-    <div class="button-container">
-        <div class="slider-clear-container">
-          <div class="slider-container">
-            <label for="lineSizeSlider">Line Size:</label>
-            <input type="range" id="lineSizeSlider" min="1" max="100" value="5">
-          </div>
-          <button id="clearButton">Clear</button>
+    <div class="button-container" id="controlsContainer" hidden>
+      <div class="slider-clear-container">
+        <div class="slider-container">
+          <label for="lineSizeSlider">Line Size:</label>
+          <input type="range" id="lineSizeSlider" min="1" max="100" value="5" aria-label="Drawing line size">
         </div>
-
+        <button id="clearButton">Clear</button>
+      </div>
+      <div class="dataset-switcher" role="group" aria-label="Select MRI dataset">
+        <span class="dataset-label">Patient:</span>
+        <button class="dataset-btn active" data-dataset="brain">Brain</button>
+        <button class="dataset-btn"        data-dataset="leg">Leg</button>
+        <button class="dataset-btn"        data-dataset="liver">Abdomen</button>
+        <button class="dataset-btn"        data-dataset="knee">Knee</button>
+      </div>
     </div>
-    <script src="js/fourier.js"></script>
-    <script src="brainmri.js"></script>
+  </main>
 
-
-    <!-- Link to Bootstrap JavaScript (CDN), if needed -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- Link to Bootstrap JavaScript (CDN), if needed -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="js/fourier.js"></script>
+  <script src="brainmri.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
-
