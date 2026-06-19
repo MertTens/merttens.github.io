@@ -10,7 +10,6 @@
     body {
       background: #000;
       overflow: hidden;
-      cursor: none;
       font-family: monospace;
     }
 
@@ -152,7 +151,7 @@
       // step every lerp-animated value one frame closer to its target
       eqAlpha   += (tEqAlpha  - eqAlpha)  * LR;
       eqR       += (tEqR-eqR)*LR; eqG += (tEqG-eqG)*LR; eqB += (tEqB-eqB)*LR;
-      eqFontSz  += (tEqFontSz - eqFontSz) * LR;
+      eqFontSz  += (tEqFontSz - eqFontSz) * 0.003;
       eqSpeedSc += (tEqSpeedSc- eqSpeedSc)* LR;
       lnR       += (tLnR-lnR)*LR; lnG += (tLnG-lnG)*LR; lnB += (tLnB-lnB)*LR;
       lnAlpha   += (tLnAlpha  - lnAlpha)  * LR;
@@ -259,58 +258,50 @@
       hintTimer = setTimeout(function () { hint.classList.remove('visible'); }, 1800);
     }
 
-    // clicks  1–5 : pure black silence — nothing happens
-    // click   6   : audio + animation wake up; equations slowly emerge
-    // clicks 7–24 : one clearly perceptible effect each, all lerp-smoothed
-    // click  25   : slow fade to white → secrethome
+    // clicks  1–10: completely normal — regular cursor, pure black, no hints
+    // click  11   : cursor switches to dot, audio + animation wake up
+    // clicks 12–29: one clearly perceptible effect each, all lerp-smoothed
+    // click  30   : slow fade to white → secrethome
     function applyClickEffect(n) {
       var ii;
       switch (n) {
-        case 6:
-          // everything wakes up: audio, animation, cursor appears, equations surface
+        case 11:
+          // everything wakes up; regular cursor replaced by dot
+          document.body.style.cursor = 'none';
           startAudio();
           cursorEl.style.opacity = '1';
           if (!animating) { animating = true; draw(); }
           tEqAlpha = 3.0;
           break;
-        case 7:
-          // connection web becomes clearly visible (alpha doubles)
+        case 12:
           tLnAlpha = 0.38;
           break;
-        case 8:
-          // links shift from dark grey to dark teal-blue
+        case 13:
           tLnR = 25; tLnG = 65; tLnB = 85;
           break;
-        case 9:
-          // particles split warm / cool — pronounced orange-red vs blue split
+        case 14:
           particles.forEach(function (p, idx) {
             var b = Math.floor(50 + Math.random()*90);
             if (idx % 2 === 0) { p.tr = Math.min(255,b+70); p.tg = b; p.tb = Math.max(0,b-50); }
             else                { p.tr = Math.max(0,b-50);  p.tg = b; p.tb = Math.min(255,b+70); }
           });
           break;
-        case 10:
-          // particles get noticeably faster — more restless energy
+        case 15:
           tPartSpd = 5.5;
           break;
-        case 11:
-          // 25 new particles spawn — crowd visibly grows
+        case 16:
           for (ii = 0; ii < 25; ii++) particles.push(new Particle());
           break;
-        case 12:
-          // mouse repulsion grows large — cursor becomes a powerful force
+        case 17:
           tRepelRad = 200; tRepelStr = 1.1;
           break;
-        case 13:
-          // ghost trails appear — particles leave faint smears
+        case 18:
           tBgAlpha = 0.90;
           break;
-        case 14:
-          // equations warm from grey to gold
+        case 19:
           tEqR = 200; tEqG = 168; tEqB = 106;
           break;
-        case 15:
-          // 4 more equations drift in
+        case 20:
           ['∇²B = μ₀σ ∂B/∂t','T₁: Mz = M₀(1−e^{−t/T₁})','ω₀ = γB₀','T₂: Mxy = M₀e^{−t/T₂}']
             .forEach(function (eq) {
               floaters.push({ text: eq, x: Math.random()*W, y: Math.random()*H,
@@ -318,28 +309,22 @@
                 base: 0, baseTarget: 0.025 + Math.random()*0.025 });
             });
           break;
-        case 16:
-          // connection lines get thicker — web becomes bold
+        case 21:
           tLnWidth = 1.6;
           break;
-        case 17:
-          // trails deepen — smears more pronounced
+        case 22:
           tBgAlpha = 0.81;
           break;
-        case 18:
-          // background tints midnight blue — barely perceptible warmth shift
+        case 23:
           tBgR = 4; tBgG = 4; tBgB = 20;
           break;
-        case 19:
-          // equation font grows — text takes up more presence
-          tEqFontSz = 15;
+        case 24:
+          tEqR = 155; tEqG = 170; tEqB = 220;
           break;
-        case 20:
-          // equations start drifting faster — the cloud becomes more chaotic
+        case 25:
           tEqSpeedSc = 2.5;
           break;
-        case 21:
-          // particles explode into vivid colours
+        case 26:
           particles.forEach(function (p) {
             var v = Math.floor(80 + Math.random()*120);
             p.tr = Math.min(255, v + Math.floor(Math.random()*80));
@@ -347,17 +332,14 @@
             p.tb = Math.min(255, v + Math.floor(Math.random()*100));
           });
           break;
-        case 22:
-          // connection web densifies — nearly every particle is linked
+        case 27:
           tLinkDist = 240;
           break;
-        case 23:
-          // 25 more particles + speed maxes — the screen is alive
+        case 28:
           for (ii = 0; ii < 25; ii++) particles.push(new Particle());
           tPartSpd = 9.0;
           break;
-        case 24:
-          // final blaze: equations burn bright, trails churn, 4 last equations arrive
+        case 29:
           tEqAlpha = 9.0;
           tBgAlpha = 0.72;
           ['B₁⁺ = |γ| τ G','Δω = γ ΔB₀','χ = M/H','FA = γ B₁ τ']
@@ -372,9 +354,9 @@
 
     function countTap() {
       clickCount++;
-      if (clickCount >= 6 && clickCount < 25) showHint();
-      if (clickCount <= 24) applyClickEffect(clickCount);
-      if (clickCount >= 25) escape();
+      if (clickCount >= 11 && clickCount < 30) showHint();
+      if (clickCount <= 29) applyClickEffect(clickCount);
+      if (clickCount >= 30) escape();
     }
 
     window.addEventListener('touchend', function () {
@@ -390,8 +372,8 @@
       if (e.key.length === 1) {
         e.preventDefault();
         typedBuffer += e.key.toLowerCase();
-        if (typedBuffer.length > 5) typedBuffer = typedBuffer.slice(-5);
-        if (typedBuffer === 'meggy') escape();
+        if (typedBuffer.length > 7) typedBuffer = typedBuffer.slice(-7);
+        if (typedBuffer.slice(-5) === 'meggy' || typedBuffer.slice(-7) === 'letmein') escape();
       } else {
         typedBuffer = '';
       }
