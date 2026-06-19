@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stony</title>
+  <title>404 Not Found</title>
+  <meta name="description" content="404 Not Found — The requested URL was not found on this server.">
+  <meta property="og:title" content="404 Not Found">
+  <meta property="og:description" content="The requested URL was not found on this server.">
+  <meta name="robots" content="noarchive">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -53,6 +57,28 @@
       pointer-events: none;
       z-index: 10000;
     }
+
+    /* fake 404 page — covers everything until click 10 */
+    #fakepage {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      z-index: 9000;
+      transition: opacity 1.5s ease;
+    }
+    #fakepage-inner {
+      font-family: 'Times New Roman', Times, serif;
+      padding: 3em 2em;
+      color: #000;
+    }
+    #fakepage-inner h1 {
+      font-size: 1.8em;
+      font-weight: normal;
+      margin: 0 0 0.4em;
+    }
+    #fakepage-inner p  { margin: 0 0 1em; font-size: 1em; }
+    #fakepage-inner hr { border: none; border-top: 1px solid #aaa; margin: 1em 0; }
+    #fakepage-inner address { font-style: italic; font-size: 0.85em; }
   </style>
 </head>
 <body>
@@ -60,6 +86,15 @@
   <div id="cursor"></div>
   <div id="hint">· · ·</div>
   <div id="flash"></div>
+
+  <div id="fakepage">
+    <div id="fakepage-inner">
+      <h1>Not Found</h1>
+      <p>The requested URL was not found on this server.</p>
+      <hr>
+      <address>Apache/2.4.54 (Debian) Server at 203.0.113.42 Port 80</address>
+    </div>
+  </div>
 
   <audio id="bgAudio" loop>
     <source src="mp3/steeldummaster.mp3" type="audio/mpeg">
@@ -258,50 +293,57 @@
       hintTimer = setTimeout(function () { hint.classList.remove('visible'); }, 1800);
     }
 
-    // clicks  1–10: completely normal — regular cursor, pure black, no hints
-    // click  11   : cursor switches to dot, audio + animation wake up
-    // clicks 12–29: one clearly perceptible effect each, all lerp-smoothed
-    // click  30   : slow fade to white → secrethome
+    // clicks  1–9 : white 404 page, normal cursor, total silence
+    // click  10   : 404 fades to black; audio + animation wake underneath
+    //               cursor switches to dot after fade completes (~1.5s)
+    // clicks 11–29: one effect each, lerp-smoothed
+    // click  30   : slow white fade → secrethome
     function applyClickEffect(n) {
       var ii;
       switch (n) {
-        case 11:
-          // everything wakes up; regular cursor replaced by dot
-          document.body.style.cursor = 'none';
+        case 10:
+          // restore real title, start audio + animation, fade 404 page out
+          document.title = 'Stony';
           startAudio();
-          cursorEl.style.opacity = '1';
           if (!animating) { animating = true; draw(); }
           tEqAlpha = 3.0;
+          var fp = document.getElementById('fakepage');
+          fp.style.opacity = '0';
+          setTimeout(function () {
+            fp.style.display = 'none';
+            document.body.style.cursor = 'none';
+            cursorEl.style.opacity = '1';
+          }, 1600);
           break;
-        case 12:
+        case 11:
           tLnAlpha = 0.38;
           break;
-        case 13:
+        case 12:
           tLnR = 25; tLnG = 65; tLnB = 85;
           break;
-        case 14:
+        case 13:
           particles.forEach(function (p, idx) {
             var b = Math.floor(50 + Math.random()*90);
             if (idx % 2 === 0) { p.tr = Math.min(255,b+70); p.tg = b; p.tb = Math.max(0,b-50); }
             else                { p.tr = Math.max(0,b-50);  p.tg = b; p.tb = Math.min(255,b+70); }
           });
           break;
-        case 15:
+        case 14:
           tPartSpd = 5.5;
           break;
-        case 16:
+        case 15:
           for (ii = 0; ii < 25; ii++) particles.push(new Particle());
           break;
-        case 17:
+        case 16:
           tRepelRad = 200; tRepelStr = 1.1;
           break;
-        case 18:
+        case 17:
           tBgAlpha = 0.90;
           break;
-        case 19:
+        case 18:
           tEqR = 200; tEqG = 168; tEqB = 106;
           break;
-        case 20:
+        case 19:
           ['∇²B = μ₀σ ∂B/∂t','T₁: Mz = M₀(1−e^{−t/T₁})','ω₀ = γB₀','T₂: Mxy = M₀e^{−t/T₂}']
             .forEach(function (eq) {
               floaters.push({ text: eq, x: Math.random()*W, y: Math.random()*H,
@@ -309,22 +351,22 @@
                 base: 0, baseTarget: 0.025 + Math.random()*0.025 });
             });
           break;
-        case 21:
+        case 20:
           tLnWidth = 1.6;
           break;
-        case 22:
+        case 21:
           tBgAlpha = 0.81;
           break;
-        case 23:
+        case 22:
           tBgR = 4; tBgG = 4; tBgB = 20;
           break;
-        case 24:
+        case 23:
           tEqR = 155; tEqG = 170; tEqB = 220;
           break;
-        case 25:
+        case 24:
           tEqSpeedSc = 2.5;
           break;
-        case 26:
+        case 25:
           particles.forEach(function (p) {
             var v = Math.floor(80 + Math.random()*120);
             p.tr = Math.min(255, v + Math.floor(Math.random()*80));
@@ -332,14 +374,14 @@
             p.tb = Math.min(255, v + Math.floor(Math.random()*100));
           });
           break;
-        case 27:
+        case 26:
           tLinkDist = 240;
           break;
-        case 28:
+        case 27:
           for (ii = 0; ii < 25; ii++) particles.push(new Particle());
           tPartSpd = 9.0;
           break;
-        case 29:
+        case 28:
           tEqAlpha = 9.0;
           tBgAlpha = 0.72;
           ['B₁⁺ = |γ| τ G','Δω = γ ΔB₀','χ = M/H','FA = γ B₁ τ']
@@ -348,6 +390,10 @@
                 vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4,
                 base: 0, baseTarget: 0.02 + Math.random()*0.02 });
             });
+          break;
+        case 29:
+          // equations bleach to white — everything burns bright before the portal
+          tEqR = 255; tEqG = 255; tEqB = 255;
           break;
       }
     }
